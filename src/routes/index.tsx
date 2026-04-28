@@ -328,10 +328,10 @@ function FiscalMonitorPro() {
       return;
     }
     if (data.user && data.session) {
-      const escritorio = await supabase.from("escritorios").insert({ nome: form.get("escritorio"), cnpj: form.get("cnpj"), email, telefone: form.get("telefone") }).select("id").single();
+      const escritorio = await supabase.from("escritorios").insert([{ nome: String(form.get("escritorio")), cnpj: String(form.get("cnpj")), email, telefone: String(form.get("telefone") ?? "") }]).select("id").single();
       if (escritorio.data) {
         await supabase.from("user_roles").insert({ user_id: data.user.id, role: "administrador" });
-        await supabase.from("usuarios").insert({ id: data.user.id, escritorio_id: escritorio.data.id, nome: form.get("responsavel"), email, telefone: form.get("telefone") });
+        await supabase.from("usuarios").insert([{ id: data.user.id, escritorio_id: escritorio.data.id, nome: String(form.get("responsavel")), email, telefone: String(form.get("telefone") ?? "") }]);
       }
     }
     setAuthMessage("Cadastro criado. Confirme seu e-mail para acessar com segurança.");
