@@ -1762,6 +1762,13 @@ function ObrigacoesSection({
   obrigacoes: Obrigacao[];
   addObrigacao: (e: React.FormEvent<HTMLFormElement>) => void;
 }) {
+  const [filter, setFilter] = useState("");
+  const visibleObrigacoes = obrigacoes.filter((item) =>
+    [empresaName(empresas, item.empresaId), item.competencia, item.tipo, item.status, item.responsavel]
+      .join(" ")
+      .toLowerCase()
+      .includes(filter.toLowerCase()),
+  );
   return (
     <div className="space-y-6">
       <Card title="Nova obrigação acessória" icon={ClipboardCheck}>
@@ -1808,25 +1815,18 @@ function ObrigacoesSection({
       </Card>
       <div className="grid gap-6 xl:grid-cols-[1fr_0.9fr]">
         <Card title="Visão por competência" icon={CalendarDays}>
+          <Input
+            className="mb-4"
+            value={filter}
+            onChange={(event) => setFilter(event.target.value)}
+            placeholder="Competência, tipo, status, empresa ou responsável"
+          />
           <div className="grid gap-3 md:grid-cols-3">
-            {[
-              "Janeiro",
-              "Fevereiro",
-              "Março",
-              "Abril",
-              "Maio",
-              "Junho",
-              "Julho",
-              "Agosto",
-              "Setembro",
-              "Outubro",
-              "Novembro",
-              "Dezembro",
-            ].map((mes) => (
+            {competenciasDemo.map((mes) => (
               <div className="rounded-xl border p-4" key={mes}>
                 <p className="font-semibold">{mes}</p>
                 <p className="text-sm text-muted-foreground">
-                  {obrigacoes.filter((o) => o.competencia === mes).length} obrigações
+                  {visibleObrigacoes.filter((o) => o.competencia === mes).length} obrigações
                 </p>
               </div>
             ))}
@@ -1834,7 +1834,7 @@ function ObrigacoesSection({
         </Card>
         <Card title="Por empresa e responsável" icon={Users}>
           <div className="space-y-3">
-            {obrigacoes.map((item) => (
+            {visibleObrigacoes.map((item) => (
               <div className="rounded-xl border p-3" key={item.id}>
                 <div className="flex items-center justify-between gap-3">
                   <strong>{item.tipo}</strong>
