@@ -1873,6 +1873,7 @@ function TarefasSection({
   addTarefa: (e: React.FormEvent<HTMLFormElement>) => void;
   moveTask: (id: string, status: Tarefa["status"]) => void;
 }) {
+  const [filter, setFilter] = useState("");
   const columns: Tarefa["status"][] = [
     "A fazer",
     "Em andamento",
@@ -1880,6 +1881,12 @@ function TarefasSection({
     "Concluído",
     "Atrasado",
   ];
+  const visibleTarefas = tarefas.filter((task) =>
+    [task.titulo, task.tipo, task.prioridade, task.status, task.responsavel, empresaName(empresas, task.empresaId)]
+      .join(" ")
+      .toLowerCase()
+      .includes(filter.toLowerCase()),
+  );
   return (
     <div className="space-y-6">
       <Card title="Nova tarefa interna" icon={Plus}>
@@ -1911,15 +1918,22 @@ function TarefasSection({
           </Button>
         </form>
       </Card>
+      <Card title="Filtros de tarefas" icon={Filter}>
+        <Input
+          value={filter}
+          onChange={(event) => setFilter(event.target.value)}
+          placeholder="Empresa, responsável, prioridade, status ou tipo"
+        />
+      </Card>
       <div className="grid gap-4 xl:grid-cols-5">
         {columns.map((column) => (
           <div className="min-h-80 rounded-2xl border bg-secondary/40 p-3" key={column}>
             <div className="mb-3 flex items-center justify-between">
               <strong>{column}</strong>
-              <Badge>{tarefas.filter((t) => t.status === column).length}</Badge>
+              <Badge>{visibleTarefas.filter((t) => t.status === column).length}</Badge>
             </div>
             <div className="space-y-3">
-              {tarefas
+              {visibleTarefas
                 .filter((task) => task.status === column)
                 .map((task) => (
                   <div className="surface-card rounded-xl border p-3" key={task.id}>
