@@ -55,13 +55,13 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Radar Contábil — Fiscal Monitor Pro" },
+      { title: "PrazoContábil — Gestão fiscal B2B" },
       {
         name: "description",
         content:
           "SaaS contábil para monitorar CNDs, certificados, alvarás, obrigações e pendências fiscais por CNPJ.",
       },
-      { property: "og:title", content: "Radar Contábil — Fiscal Monitor Pro" },
+      { property: "og:title", content: "PrazoContábil — Gestão fiscal B2B" },
       {
         property: "og:description",
         content: "Controle a rotina fiscal dos seus clientes sem depender de planilhas.",
@@ -803,8 +803,8 @@ function FiscalMonitorPro() {
               <Radar className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-sm text-panel-foreground/70">RADAR CONTÁBIL</p>
-              <strong>Fiscal Monitor Pro</strong>
+              <p className="text-sm text-panel-foreground/70">PRAZOCONTÁBIL</p>
+              <strong>Gestão fiscal B2B</strong>
             </div>
           </div>
           <nav className="space-y-1 p-3">
@@ -867,8 +867,8 @@ function FiscalMonitorPro() {
               <Radar className="h-5 w-5" />
             </div>
             <div>
-              <strong>Radar Contábil</strong>
-              <p className="text-xs text-muted-foreground">Fiscal Monitor Pro</p>
+              <strong>PrazoContábil</strong>
+              <p className="text-xs text-muted-foreground">Gestão fiscal B2B</p>
             </div>
           </div>
           <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
@@ -886,7 +886,7 @@ function FiscalMonitorPro() {
           <div className="max-w-3xl">
             <Badge tone="success">Radar automático de risco fiscal</Badge>
             <h1 className="mt-6 text-4xl font-bold leading-tight md:text-6xl">
-              Controle a rotina fiscal dos seus clientes sem depender de planilhas.
+              Controle prazos fiscais, documentos e riscos por CNPJ.
             </h1>
             <p className="mt-6 text-lg text-muted-foreground md:text-xl">
               Monitore vencimentos, documentos, obrigações e pendências contábeis com alertas
@@ -924,7 +924,7 @@ function FiscalMonitorPro() {
             <div className="absolute inset-x-4 bottom-4 rounded-2xl border bg-card/95 p-4 shadow-2xl backdrop-blur md:inset-x-8 md:bottom-8">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="text-sm text-muted-foreground">Radar Contábil</p>
+                  <p className="text-sm text-muted-foreground">PrazoContábil</p>
                   <h2 className="text-xl font-semibold">Prioridade fiscal hoje</h2>
                 </div>
                 <Badge tone="critical">7 críticas</Badge>
@@ -992,8 +992,8 @@ function FiscalMonitorPro() {
                 Menos apagão fiscal, mais previsibilidade para o escritório.
               </h2>
               <p className="mt-4 text-muted-foreground">
-                A landing agora usa fotos reais, thumbnails consistentes e uma leitura mais
-                comercial para vender confiança.
+                Fotos profissionais, painéis objetivos e indicadores por risco reforçam confiança
+                comercial para escritórios e departamentos fiscais.
               </p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
