@@ -2116,10 +2116,75 @@ function RelatoriosSection({
     "Certificados digitais próximos do vencimento",
     "Alvarás vencidos",
   ];
+  const [reportFilter, setReportFilter] = useState({
+    empresa: "",
+    natureza: "Todos",
+    setor: "Todos",
+    uf: "Todos",
+    municipio: "Todos",
+    status: "Todos",
+    tipo: "Todos",
+    competencia: "Todos",
+    responsavel: "Todos",
+    prioridade: "Todos",
+  });
+  const filteredReportEmpresas = empresas.filter((empresa) => {
+    const term = reportFilter.empresa.toLowerCase();
+    return (
+      [empresa.razaoSocial, empresa.fantasia, empresa.cnpj].some((value) =>
+        value.toLowerCase().includes(term),
+      ) &&
+      (reportFilter.natureza === "Todos" || empresa.naturezaJuridica === reportFilter.natureza) &&
+      (reportFilter.setor === "Todos" || empresa.setor === reportFilter.setor) &&
+      (reportFilter.uf === "Todos" || empresa.uf === reportFilter.uf) &&
+      (reportFilter.municipio === "Todos" || empresa.municipio === reportFilter.municipio) &&
+      (reportFilter.responsavel === "Todos" || empresa.responsavel === reportFilter.responsavel)
+    );
+  });
+  const selectedIds = new Set(filteredReportEmpresas.map((empresa) => empresa.id));
+  const filteredReportDocs = documentos.filter(
+    (doc) =>
+      selectedIds.has(doc.empresaId) &&
+      (reportFilter.status === "Todos" || doc.status === reportFilter.status) &&
+      (reportFilter.tipo === "Todos" || doc.tipo === reportFilter.tipo),
+  );
+  const filteredReportObrigacoes = obrigacoes.filter(
+    (item) =>
+      selectedIds.has(item.empresaId) &&
+      (reportFilter.status === "Todos" || item.status === reportFilter.status) &&
+      (reportFilter.tipo === "Todos" || item.tipo === reportFilter.tipo) &&
+      (reportFilter.competencia === "Todos" || item.competencia === reportFilter.competencia) &&
+      (reportFilter.responsavel === "Todos" || item.responsavel === reportFilter.responsavel),
+  );
+  const filteredReportTarefas = tarefas.filter(
+    (task) =>
+      selectedIds.has(task.empresaId) &&
+      (reportFilter.status === "Todos" || task.status === reportFilter.status) &&
+      (reportFilter.tipo === "Todos" || task.tipo === reportFilter.tipo) &&
+      (reportFilter.responsavel === "Todos" || task.responsavel === reportFilter.responsavel) &&
+      (reportFilter.prioridade === "Todos" || task.prioridade === reportFilter.prioridade),
+  );
+  const updateFilter = (key: keyof typeof reportFilter, value: string) =>
+    setReportFilter((current) => ({ ...current, [key]: value }));
   const exportCsv = () => {
     const csv = [
-      "razao_social,cnpj,risco,status",
-      ...empresas.map((e) => `${e.razaoSocial},${e.cnpj},${e.risco},${riskStatus(e.risco)}`),
+      "razao_social,nome_fantasia,cnpj,natureza_juridica,setor,uf,municipio,responsavel,risco,status",
+      ...filteredReportEmpresas.map((e) =>
+        [
+          e.razaoSocial,
+          e.fantasia,
+          e.cnpj,
+          e.naturezaJuridica,
+          e.setor,
+          e.uf,
+          e.municipio,
+          e.responsavel,
+          e.risco,
+          riskStatus(e.risco),
+        ]
+          .map(csvValue)
+          .join(","),
+      ),
     ].join("\n");
     const url = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
     const a = document.createElement("a");
