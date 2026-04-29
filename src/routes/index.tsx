@@ -140,8 +140,7 @@ const defaultContactEmail = "edicunhabr@gmail.com";
 const defaultAccessPassword = "-205511";
 const demoObservation =
   "Dados demonstrativos criados para teste do PrazoContábil. As empresas cadastradas usam informações públicas básicas e documentos fictícios para simulação de vencimentos, obrigações e alertas.";
-const demoRegimeObservation =
-  "Regime usado apenas para demonstração/teste; confirmar em uso real.";
+const demoRegimeObservation = "Regime usado apenas para demonstração/teste; confirmar em uso real.";
 const tiposDocumento = [
   "CND Federal",
   "CND Estadual",
@@ -497,7 +496,9 @@ const initialDocumentos: Documento[] = initialEmpresas.flatMap((empresa, empresa
       numero: `DEMO-${String(empresaIndex + 1).padStart(2, "0")}-${String(tipoIndex + 1).padStart(2, "0")}`,
       emissao: iso(-(tipoIndex * 24 + empresaIndex * 3 + 30)),
       vencimento: iso(offset),
-      arquivo: attached ? `${empresa.id}-${tipo.toLowerCase().replaceAll(" ", "-")}.pdf` : undefined,
+      arquivo: attached
+        ? `${empresa.id}-${tipo.toLowerCase().replaceAll(" ", "-")}.pdf`
+        : undefined,
       observacoes: pending
         ? "aguardando envio pelo cliente"
         : "Documento fictício para demonstração/teste.",
@@ -612,11 +613,7 @@ function FiscalMonitorPro() {
     const vencendo = enrichedDocs.filter((doc) => doc.status === "Vencendo").length;
     const atrasadas = obrigacoes.filter((item) => item.status === "Atrasada").length;
     const tarefasPendentes = tarefas.filter((task) => task.status !== "Concluído").length;
-    const abertas =
-      vencidos +
-      vencendo +
-      atrasadas +
-      tarefasPendentes;
+    const abertas = vencidos + vencendo + atrasadas + tarefasPendentes;
     return { empresas: empresas.length, abertas, vencidos, vencendo, atrasadas, tarefasPendentes };
   }, [empresas, enrichedDocs, obrigacoes, tarefas]);
 
@@ -1271,17 +1268,43 @@ function DashboardSection({
   setActive: (id: string) => void;
 }) {
   const pendencias = [
-    ...documentos.filter((item) => item.status !== "Válido").map((item) => ({ tipo: item.tipo, responsavel: empresas.find((empresa) => empresa.id === item.empresaId)?.responsavel ?? "Equipe Fiscal" })),
-    ...obrigacoes.filter((item) => item.status === "Atrasada" || item.status === "Pendente").map((item) => ({ tipo: item.tipo, responsavel: item.responsavel })),
-    ...tarefas.filter((item) => item.status !== "Concluído").map((item) => ({ tipo: item.tipo, responsavel: item.responsavel })),
+    ...documentos
+      .filter((item) => item.status !== "Válido")
+      .map((item) => ({
+        tipo: item.tipo,
+        responsavel:
+          empresas.find((empresa) => empresa.id === item.empresaId)?.responsavel ?? "Equipe Fiscal",
+      })),
+    ...obrigacoes
+      .filter((item) => item.status === "Atrasada" || item.status === "Pendente")
+      .map((item) => ({ tipo: item.tipo, responsavel: item.responsavel })),
+    ...tarefas
+      .filter((item) => item.status !== "Concluído")
+      .map((item) => ({ tipo: item.tipo, responsavel: item.responsavel })),
   ];
   const chartData = groupCount(pendencias, "tipo").slice(0, 8);
   const responsavelData = groupCount(pendencias, "responsavel");
   const ranking = [...empresas].sort((a, b) => b.risco - a.risco).slice(0, 5);
   const prioridadesDia = [
-    ...documentos.filter((d) => d.status !== "Válido").map((d) => ({ label: d.tipo, company: d.empresa, date: d.vencimento, tone: d.status === "Vencido" ? "critical" : "warning" })),
-    ...tarefas.filter((t) => t.status === "Atrasado" || t.prioridade === "Crítica").map((t) => ({ label: t.titulo, company: empresaName(empresas, t.empresaId), date: t.limite, tone: t.status === "Atrasado" ? "critical" : "warning" })),
-  ].sort((a, b) => a.date.localeCompare(b.date)).slice(0, 5);
+    ...documentos
+      .filter((d) => d.status !== "Válido")
+      .map((d) => ({
+        label: d.tipo,
+        company: d.empresa,
+        date: d.vencimento,
+        tone: d.status === "Vencido" ? "critical" : "warning",
+      })),
+    ...tarefas
+      .filter((t) => t.status === "Atrasado" || t.prioridade === "Crítica")
+      .map((t) => ({
+        label: t.titulo,
+        company: empresaName(empresas, t.empresaId),
+        date: t.limite,
+        tone: t.status === "Atrasado" ? "critical" : "warning",
+      })),
+  ]
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .slice(0, 5);
   return (
     <div className="space-y-6">
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-6">
@@ -1295,7 +1318,12 @@ function DashboardSection({
           value={metrics.atrasadas}
           tone="critical"
         />
-        <Kpi icon={ShieldCheck} label="Tarefas pendentes" value={metrics.tarefasPendentes} tone="warning" />
+        <Kpi
+          icon={ShieldCheck}
+          label="Tarefas pendentes"
+          value={metrics.tarefasPendentes}
+          tone="warning"
+        />
       </div>
       <div className="rounded-xl border bg-secondary/45 p-4 text-sm text-muted-foreground">
         {demoObservation}
@@ -1312,7 +1340,10 @@ function DashboardSection({
         >
           <div className="grid gap-3 md:grid-cols-2">
             {prioridadesDia.map((item) => (
-              <div className="rounded-xl border bg-secondary/45 p-4" key={`${item.label}-${item.company}-${item.date}`}>
+              <div
+                className="rounded-xl border bg-secondary/45 p-4"
+                key={`${item.label}-${item.company}-${item.date}`}
+              >
                 <Badge tone={item.tone as Tone}>{formatDate(item.date)}</Badge>
                 <p className="mt-3 text-sm font-medium">{item.label}</p>
                 <p className="mt-1 text-xs text-muted-foreground">{item.company}</p>
@@ -1764,7 +1795,13 @@ function ObrigacoesSection({
 }) {
   const [filter, setFilter] = useState("");
   const visibleObrigacoes = obrigacoes.filter((item) =>
-    [empresaName(empresas, item.empresaId), item.competencia, item.tipo, item.status, item.responsavel]
+    [
+      empresaName(empresas, item.empresaId),
+      item.competencia,
+      item.tipo,
+      item.status,
+      item.responsavel,
+    ]
       .join(" ")
       .toLowerCase()
       .includes(filter.toLowerCase()),
@@ -1882,7 +1919,14 @@ function TarefasSection({
     "Atrasado",
   ];
   const visibleTarefas = tarefas.filter((task) =>
-    [task.titulo, task.tipo, task.prioridade, task.status, task.responsavel, empresaName(empresas, task.empresaId)]
+    [
+      task.titulo,
+      task.tipo,
+      task.prioridade,
+      task.status,
+      task.responsavel,
+      empresaName(empresas, task.empresaId),
+    ]
       .join(" ")
       .toLowerCase()
       .includes(filter.toLowerCase()),
