@@ -2634,6 +2634,9 @@ function toneFromRisk(score: number): Tone {
 function onlyDigits(value: string) {
   return value.replace(/\D/g, "");
 }
+function csvValue(value: string | number) {
+  return `"${String(value).replaceAll('"', '""')}"`;
+}
 function isValidCnpj(value: string) {
   const cnpj = onlyDigits(value);
   if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false;
