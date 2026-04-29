@@ -132,6 +132,7 @@ const iso = (offset: number) => {
 
 const responsaveis = ["Ana Martins", "Bruno Costa", "Camila Rocha", "Diego Alves"];
 const defaultContactEmail = "edicunhabr@gmail.com";
+const defaultAccessPassword = "-205511";
 const tiposDocumento = [
   "CND Federal",
   "CND Estadual",
@@ -2140,7 +2141,7 @@ function AuthModal({
             type="email"
             required
             placeholder="E-mail"
-            defaultValue={mode === "cadastro" ? defaultContactEmail : undefined}
+            defaultValue={defaultContactEmail}
             className={mode === "login" ? "md:col-span-2" : ""}
           />
           <Input
@@ -2149,6 +2150,7 @@ function AuthModal({
             required
             minLength={6}
             placeholder="Senha"
+            defaultValue={defaultAccessPassword}
             className={mode === "login" ? "md:col-span-2" : ""}
           />
           <Button className="md:col-span-2" variant="hero">
