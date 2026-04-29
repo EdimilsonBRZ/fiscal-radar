@@ -685,17 +685,15 @@ function FiscalMonitorPro() {
         .single();
       if (escritorio.data) {
         await supabase.from("user_roles").insert({ user_id: data.user.id, role: "administrador" });
-        await supabase
-          .from("usuarios")
-          .insert([
-            {
-              id: data.user.id,
-              escritorio_id: escritorio.data.id,
-              nome: String(form.get("responsavel")),
-              email,
-              telefone: String(form.get("telefone") ?? ""),
-            },
-          ]);
+        await supabase.from("usuarios").insert([
+          {
+            id: data.user.id,
+            escritorio_id: escritorio.data.id,
+            nome: String(form.get("responsavel")),
+            email,
+            telefone: String(form.get("telefone") ?? ""),
+          },
+        ]);
       }
     }
     setAuthMessage("Cadastro criado. Confirme seu e-mail para acessar com segurança.");
