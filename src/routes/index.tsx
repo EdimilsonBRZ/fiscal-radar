@@ -1654,6 +1654,14 @@ function DocumentosSection({
   documentos: Array<Documento & { status: string; empresa: string }>;
   addDocumento: (e: React.FormEvent<HTMLFormElement>) => void;
 }) {
+  const [filter, setFilter] = useState("");
+  const visibleDocs = documentos.filter((doc) => {
+    const empresa = empresas.find((item) => item.id === doc.empresaId);
+    return [doc.empresa, empresa?.cnpj, doc.status, doc.tipo, doc.vencimento, doc.observacoes]
+      .join(" ")
+      .toLowerCase()
+      .includes(filter.toLowerCase());
+  });
   return (
     <div className="grid gap-6 xl:grid-cols-[0.75fr_1.25fr]">
       <Card title="Adicionar documento" icon={Upload}>
@@ -1691,7 +1699,11 @@ function DocumentosSection({
       </Card>
       <Card title="Controle de documentos" icon={FileText}>
         <div className="mb-4 flex gap-2">
-          <Input placeholder="Filtrar por empresa, CNPJ, status ou vencimento" />
+          <Input
+            value={filter}
+            onChange={(event) => setFilter(event.target.value)}
+            placeholder="Empresa, CNPJ, status, tipo ou vencimento"
+          />
           <Button variant="outline">
             <Filter className="h-4 w-4" />
           </Button>
@@ -1710,7 +1722,7 @@ function DocumentosSection({
               </tr>
             </thead>
             <tbody>
-              {documentos.map((doc) => (
+              {visibleDocs.map((doc) => (
                 <tr key={doc.id} className="border-b last:border-0">
                   <td className="py-3 font-medium">{doc.empresa}</td>
                   <td>{doc.tipo}</td>
