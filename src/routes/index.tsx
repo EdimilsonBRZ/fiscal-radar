@@ -2369,6 +2369,15 @@ function ConfigLine({ label, active }: { label: string; active: boolean }) {
     </div>
   );
 }
+function groupCount<T extends Record<string, string>>(items: T[], key: keyof T) {
+  const grouped = items.reduce<Record<string, number>>((acc, item) => {
+    acc[item[key]] = (acc[item[key]] ?? 0) + 1;
+    return acc;
+  }, {});
+  return Object.entries(grouped)
+    .map(([name, value]) => ({ name, value }))
+    .sort((a, b) => b.value - a.value);
+}
 function empresaName(empresas: Empresa[], id: string) {
   return empresas.find((empresa) => empresa.id === id)?.fantasia ?? "Empresa";
 }
