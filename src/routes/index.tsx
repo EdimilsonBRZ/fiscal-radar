@@ -511,7 +511,8 @@ function FiscalMonitorPro() {
       documentos.map((doc) => ({
         ...doc,
         status: documentStatus(doc.vencimento),
-        empresa: empresas.find((empresa) => empresa.id === doc.empresaId)?.razaoSocial ?? "Sem empresa",
+        empresa:
+          empresas.find((empresa) => empresa.id === doc.empresaId)?.razaoSocial ?? "Sem empresa",
       })),
     [documentos, empresas],
   );
