@@ -610,16 +610,14 @@ function FiscalMonitorPro() {
   const metrics = useMemo(() => {
     const vencidos = enrichedDocs.filter((doc) => doc.status === "Vencido").length;
     const vencendo = enrichedDocs.filter((doc) => doc.status === "Vencendo").length;
-    const certs = enrichedDocs.filter(
-      (doc) => doc.tipo === "Certificado Digital" && doc.status !== "Válido",
-    ).length;
     const atrasadas = obrigacoes.filter((item) => item.status === "Atrasada").length;
+    const tarefasPendentes = tarefas.filter((task) => task.status !== "Concluído").length;
     const abertas =
       vencidos +
       vencendo +
       atrasadas +
-      tarefas.filter((task) => task.status !== "Concluído").length;
-    return { empresas: empresas.length, abertas, vencidos, vencendo, certs, atrasadas };
+      tarefasPendentes;
+    return { empresas: empresas.length, abertas, vencidos, vencendo, atrasadas, tarefasPendentes };
   }, [empresas, enrichedDocs, obrigacoes, tarefas]);
 
   const filteredEmpresas = empresas.filter((empresa) => {
@@ -627,6 +625,10 @@ function FiscalMonitorPro() {
     const matches = [
       empresa.cnpj,
       empresa.razaoSocial,
+      empresa.fantasia,
+      empresa.naturezaJuridica,
+      empresa.setor,
+      empresa.uf,
       empresa.municipio,
       empresa.regime,
       empresa.responsavel,
@@ -652,9 +654,14 @@ function FiscalMonitorPro() {
       razaoSocial: String(form.get("razao") ?? ""),
       fantasia: String(form.get("fantasia") ?? ""),
       cnpj,
+      naturezaJuridica: String(form.get("natureza") ?? "Não informado"),
+      setor: String(form.get("setor") ?? "Não informado"),
+      endereco: String(form.get("endereco") ?? "Não informado"),
+      cep: String(form.get("cep") ?? "Não informado"),
       ie: String(form.get("ie") ?? ""),
       im: String(form.get("im") ?? ""),
       regime: String(form.get("regime") ?? "Simples Nacional"),
+      observacao: String(form.get("observacao") ?? demoRegimeObservation),
       uf: String(form.get("uf") ?? "SP"),
       municipio: String(form.get("municipio") ?? ""),
       email: String(form.get("email") ?? ""),
