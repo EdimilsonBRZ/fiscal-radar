@@ -2,6 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import { lovable } from "@/integrations/lovable";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import heroAccounting from "@/assets/landing/hero-accounting.jpg";
+import accountingTeam from "@/assets/landing/accounting-team.jpg";
+import soloAccountant from "@/assets/landing/solo-accountant.jpg";
+import fiscalDepartment from "@/assets/landing/fiscal-department.jpg";
+import businessMeeting from "@/assets/landing/business-meeting.jpg";
+import documentsControl from "@/assets/landing/documents-control.jpg";
+import reportsDashboard from "@/assets/landing/reports-dashboard.jpg";
 import { Input } from "@/components/ui/input";
 import {
   AlertTriangle,
@@ -138,6 +145,27 @@ const tiposDocumento = [
   "Outros documentos",
 ];
 const tiposObrigacao = ["DCTFWeb", "EFD-Reinf", "eSocial", "SPED Fiscal", "SPED Contribuições", "PGDAS-D", "DEFIS", "DIRF", "ECD", "ECF", "MIT"];
+
+const audienceCards = [
+  { title: "Escritórios contábeis", text: "Operação fiscal com equipe, carteira de clientes e prazos simultâneos.", image: accountingTeam, alt: "Equipe contábil reunida em escritório profissional" },
+  { title: "Contadores autônomos", text: "Rotina individual com controle de documentos, CNDs e entregas mensais.", image: soloAccountant, alt: "Contador autônomo trabalhando com notebook e documentos" },
+  { title: "Departamentos fiscais", text: "Times corporativos acompanhando indicadores, responsáveis e vencimentos.", image: fiscalDepartment, alt: "Equipe fiscal analisando indicadores corporativos" },
+  { title: "Empresas com várias filiais", text: "Gestão multiunidade com visão por CNPJ, matriz, filial e risco operacional.", image: businessMeeting, alt: "Reunião empresarial para gestão de várias unidades" },
+];
+
+const benefitCards = [
+  { title: "Alertas automáticos", text: "30, 15 e 7 dias antes, no vencimento e recorrência pós-vencido.", image: documentsControl, alt: "Profissional revisando documentos fiscais e prazos" },
+  { title: "Controle de vencimentos", text: "CNDs, certificados, alvarás, contratos e obrigações em uma fila priorizada.", image: reportsDashboard, alt: "Dashboard corporativo com gráficos e indicadores financeiros" },
+  { title: "Tarefas por responsável", text: "Kanban fiscal com prioridade, histórico, cliente vinculado e responsável interno.", image: accountingTeam, alt: "Equipe organizando tarefas em ambiente corporativo" },
+  { title: "Relatórios executivos", text: "Exportações por risco, empresa, competência, pendência e responsável.", image: fiscalDepartment, alt: "Analistas revisando relatórios em tela corporativa" },
+  { title: "Monitoramento por CNPJ", text: "Cada empresa recebe score, status, alertas e documentos críticos em tempo real.", image: businessMeeting, alt: "Gestores acompanhando carteira empresarial por unidades" },
+];
+
+const planCards = [
+  { name: "Free", price: "R$ 0", text: "Para validar o fluxo com controles essenciais.", features: ["Até 5 empresas", "Documentos e vencimentos", "Dashboard básico"] },
+  { name: "Pro", price: "R$ 97/mês", text: "Para escritórios que precisam de alertas e produtividade.", features: ["Até 60 empresas", "Alertas automáticos", "Kanban fiscal", "Relatórios CSV/PDF"] },
+  { name: "Premium", price: "R$ 247/mês", text: "Para operações com múltiplos responsáveis e filiais.", features: ["Empresas ilimitadas", "Permissões avançadas", "E-mails do app", "Prioridade por risco"] },
+];
 
 const initialEmpresas: Empresa[] = [
   { id: "e1", razaoSocial: "Aurum Comércio de Alimentos Ltda", fantasia: "Aurum Foods", cnpj: "12.345.678/0001-90", ie: "110.042.129.114", im: "54890", regime: "Lucro Presumido", uf: "SP", municipio: "São Paulo", email: "fiscal@aurumfoods.com", telefone: "(11) 4002-1122", responsavel: "Ana Martins", status: "Ativa", risco: 86 },
@@ -379,38 +407,43 @@ function FiscalMonitorPro() {
           <Button variant="panel" onClick={() => setAuthOpen(true)}><Lock className="h-4 w-4" /> Entrar</Button>
         </div>
       </header>
-      <section className="hero-grid overflow-hidden">
-        <div className="mx-auto grid min-h-[calc(100vh-76px)] max-w-7xl items-center gap-10 px-4 py-14 md:grid-cols-[1fr_0.9fr] md:px-8">
+      <section className="overflow-hidden">
+        <div className="mx-auto grid min-h-[calc(100vh-76px)] max-w-7xl items-center gap-10 px-4 py-12 md:grid-cols-[0.95fr_1.05fr] md:px-8 lg:py-16">
           <div className="max-w-3xl">
             <Badge tone="success">Radar automático de risco fiscal</Badge>
             <h1 className="mt-6 text-4xl font-bold leading-tight md:text-6xl">Controle a rotina fiscal dos seus clientes sem depender de planilhas.</h1>
             <p className="mt-6 text-lg text-muted-foreground md:text-xl">Monitore vencimentos, documentos, obrigações e pendências contábeis com alertas automáticos e visão estratégica por CNPJ.</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button variant="hero" size="lg" onClick={() => setAuthOpen(true)}>Começar agora <ChevronRight className="h-4 w-4" /></Button><Button variant="outline" size="lg" onClick={() => setAppOpen(true)}>Ver demonstração</Button></div>
-            <div id="beneficios" className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {["Veja tudo em tempo real.", "Evite documentos vencidos.", "Reduza retrabalho da equipe.", "Organize tarefas por responsável.", "Tenha relatórios prontos para tomada de decisão.", "Mais controle por CNPJ."].map((item) => <div key={item} className="surface-card rounded-xl border p-4 text-sm"><CheckCircle2 className="mb-3 h-5 w-5 text-success" />{item}</div>)}
+            <div className="mt-10 grid gap-3 sm:grid-cols-3">
+              {["125 CNPJs monitorados", "38 alertas ativos", "92% das pendências em dia"].map((item) => <div key={item} className="surface-card rounded-xl border p-4 text-sm font-semibold"><CheckCircle2 className="mb-3 h-5 w-5 text-success" />{item}</div>)}
             </div>
           </div>
-          <div id="demo" className="radar-sweep rounded-2xl border bg-card p-4 shadow-2xl">
-            <div className="panel-gradient rounded-xl p-5">
-              <div className="flex items-center justify-between"><div><p className="text-sm opacity-75">Radar Contábil</p><h2 className="text-2xl font-semibold">Prioridade fiscal hoje</h2></div><Gauge className="h-8 w-8 text-accent" /></div>
-              <div className="mt-8 grid grid-cols-2 gap-3">
+          <div className="relative" id="demo">
+            <img src={heroAccounting} alt="Profissional contábil analisando documentos fiscais em escritório corporativo" className="h-[560px] w-full rounded-2xl border object-cover shadow-2xl" loading="eager" />
+            <div className="absolute inset-x-4 bottom-4 rounded-2xl border bg-card/95 p-4 shadow-2xl backdrop-blur md:inset-x-8 md:bottom-8">
+              <div className="flex items-center justify-between gap-4"><div><p className="text-sm text-muted-foreground">Radar Contábil</p><h2 className="text-xl font-semibold">Prioridade fiscal hoje</h2></div><Badge tone="critical">7 críticas</Badge></div>
+              <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
                 <Metric label="Críticas" value="7" tone="critical" />
-                <Metric label="Vencem em 30 dias" value="18" tone="warning" />
-                <Metric label="CNDs vencidas" value="4" tone="critical" />
-                <Metric label="Regularizadas" value="96" tone="success" />
-              </div>
-              <div className="mt-5 space-y-3">
-                {initialEmpresas.slice(0, 3).map((empresa) => <RiskRow key={empresa.id} empresa={empresa} compact />)}
+                <Metric label="Vencem" value="18" tone="warning" />
+                <Metric label="CNDs" value="4" tone="critical" />
+                <Metric label="Ok" value="96" tone="success" />
               </div>
             </div>
           </div>
         </div>
       </section>
       <section className="mx-auto max-w-7xl px-4 py-16 md:px-8">
-        <h2 className="text-3xl font-bold">Para quem é</h2>
-        <div className="mt-6 grid gap-4 md:grid-cols-4">{["Escritórios contábeis", "Contadores autônomos", "Departamentos fiscais", "Empresas com várias filiais"].map((item) => <div className="surface-card rounded-xl border p-5" key={item}><Users className="mb-4 h-5 w-5 text-primary" /><strong>{item}</strong></div>)}</div>
+        <div className="max-w-3xl"><Badge>Produto B2B para rotina fiscal</Badge><h2 className="mt-4 text-3xl font-bold">Para quem é</h2><p className="mt-3 text-muted-foreground">Cada perfil recebe uma visão de operação, carteira e risco fiscal com imagens e contexto profissional.</p></div>
+        <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">{audienceCards.map((item) => <article className="surface-card overflow-hidden rounded-2xl border" key={item.title}><img src={item.image} alt={item.alt} className="h-44 w-full object-cover" loading="lazy" /><div className="p-5"><strong>{item.title}</strong><p className="mt-2 text-sm text-muted-foreground">{item.text}</p></div></article>)}</div>
       </section>
-      <section id="planos" className="border-y bg-secondary/55"><div className="mx-auto max-w-7xl px-4 py-16 md:px-8"><h2 className="text-3xl font-bold">Planos</h2><div className="mt-6 grid gap-5 md:grid-cols-3">{["Free", "Profissional", "Escritório"].map((plan, i) => <div key={plan} className={`surface-card rounded-2xl border p-6 ${i === 1 ? "ring-2 ring-primary" : ""}`}><h3 className="text-2xl font-semibold">{plan}</h3><p className="mt-2 text-muted-foreground">{i === 0 ? "Para começar com controles essenciais." : i === 1 ? "Para equipes que precisam de alertas e relatórios." : "Para múltiplos usuários, filiais e permissões."}</p><Button className="mt-6 w-full" variant={i === 1 ? "hero" : "outline"} onClick={() => setAuthOpen(true)}>Selecionar</Button></div>)}</div></div></section>
+      <section id="beneficios" className="border-y bg-secondary/55"><div className="mx-auto max-w-7xl px-4 py-16 md:px-8"><div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]"><div><Badge tone="success">Benefícios operacionais</Badge><h2 className="mt-4 text-3xl font-bold">Menos apagão fiscal, mais previsibilidade para o escritório.</h2><p className="mt-4 text-muted-foreground">A landing agora usa fotos reais, thumbnails consistentes e uma leitura mais comercial para vender confiança.</p></div><div className="grid gap-4 sm:grid-cols-2">{benefitCards.map((item) => <article className="surface-card overflow-hidden rounded-2xl border" key={item.title}><img src={item.image} alt={item.alt} className="h-32 w-full object-cover" loading="lazy" /><div className="p-4"><strong>{item.title}</strong><p className="mt-2 text-sm text-muted-foreground">{item.text}</p></div></article>)}</div></div></div></section>
+      <section className="mx-auto max-w-7xl px-4 py-16 md:px-8">
+        <div className="grid items-center gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="surface-card rounded-2xl border bg-card p-4 shadow-2xl"><DashboardMockup /></div>
+          <div><Badge>Screenshot do produto</Badge><h2 className="mt-4 text-3xl font-bold">Demonstração com aparência de sistema real.</h2><p className="mt-4 text-muted-foreground">Cards, gráficos, tabelas, alertas e ranking por risco reforçam a proposta de painel único para escritórios contábeis.</p><Button className="mt-6" variant="panel" onClick={() => setAppOpen(true)}>Abrir painel completo</Button></div>
+        </div>
+      </section>
+      <section id="planos" className="border-y bg-secondary/55"><div className="mx-auto max-w-7xl px-4 py-16 md:px-8"><div className="flex flex-col justify-between gap-4 md:flex-row md:items-end"><div><Badge>Assinatura SaaS</Badge><h2 className="mt-4 text-3xl font-bold">Planos para crescer com o escritório</h2></div><p className="max-w-xl text-sm text-muted-foreground">Pagamentos reais podem ser ativados com Paddle, recomendado para este SaaS contábil.</p></div><div className="mt-8 grid gap-5 md:grid-cols-3">{planCards.map((plan, i) => <div key={plan.name} className={`surface-card rounded-2xl border p-6 ${i === 1 ? "ring-2 ring-primary" : ""}`}><div className="flex items-center justify-between"><h3 className="text-2xl font-semibold">{plan.name}</h3>{i === 1 && <Badge tone="success">mais vendido</Badge>}</div><p className="mt-4 text-4xl font-bold">{plan.price}</p><p className="mt-3 text-muted-foreground">{plan.text}</p><div className="mt-6 space-y-3">{plan.features.map((feature) => <p className="flex items-center gap-2 text-sm" key={feature}><CheckCircle2 className="h-4 w-4 text-success" />{feature}</p>)}</div><Button className="mt-6 w-full" variant={i === 1 ? "hero" : "outline"} onClick={() => setAuthOpen(true)}>Selecionar plano</Button></div>)}</div></div></section>
       <section className="mx-auto max-w-4xl px-4 py-16 text-center md:px-8"><h2 className="text-3xl font-bold">Sua contabilidade não precisa viver apagando incêndio. Transforme pendências em gestão.</h2><Button className="mt-7" variant="success" size="lg" onClick={() => setAuthOpen(true)}>Criar escritório</Button></section>
       <footer className="border-t px-4 py-8 text-center text-sm text-muted-foreground">Política de Privacidade · Termos de Uso · Contato</footer>
       {authOpen && <AuthModal mode={mode} setMode={setMode} onClose={() => setAuthOpen(false)} onSubmit={handleAuth} onGoogle={signInGoogle} message={authMessage} />}
