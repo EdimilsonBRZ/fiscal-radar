@@ -131,6 +131,7 @@ const iso = (offset: number) => {
 };
 
 const responsaveis = ["Ana Martins", "Bruno Costa", "Camila Rocha", "Diego Alves"];
+const defaultContactEmail = "edicunhabr@gmail.com";
 const tiposDocumento = [
   "CND Federal",
   "CND Estadual",
@@ -254,7 +255,7 @@ const initialEmpresas: Empresa[] = [
     regime: "Lucro Presumido",
     uf: "SP",
     municipio: "São Paulo",
-    email: "fiscal@aurumfoods.com",
+    email: defaultContactEmail,
     telefone: "(11) 4002-1122",
     responsavel: "Ana Martins",
     status: "Ativa",
@@ -270,7 +271,7 @@ const initialEmpresas: Empresa[] = [
     regime: "Lucro Real",
     uf: "RJ",
     municipio: "Rio de Janeiro",
-    email: "contas@nexoengenharia.com",
+    email: defaultContactEmail,
     telefone: "(21) 3555-0808",
     responsavel: "Bruno Costa",
     status: "Ativa",
@@ -286,7 +287,7 @@ const initialEmpresas: Empresa[] = [
     regime: "Simples Nacional",
     uf: "PR",
     municipio: "Curitiba",
-    email: "adm@vistasul.com",
+    email: defaultContactEmail,
     telefone: "(41) 3222-3311",
     responsavel: "Camila Rocha",
     status: "Ativa",
@@ -302,7 +303,7 @@ const initialEmpresas: Empresa[] = [
     regime: "Lucro Presumido",
     uf: "MG",
     municipio: "Belo Horizonte",
-    email: "fiscal@prismalog.com",
+    email: defaultContactEmail,
     telefone: "(31) 3003-2020",
     responsavel: "Diego Alves",
     status: "Ativa",
@@ -318,7 +319,7 @@ const initialEmpresas: Empresa[] = [
     regime: "Lucro Presumido",
     uf: "SP",
     municipio: "Campinas",
-    email: "campinas@prismalog.com",
+    email: defaultContactEmail,
     telefone: "(19) 3444-7890",
     responsavel: "Diego Alves",
     status: "Ativa",
