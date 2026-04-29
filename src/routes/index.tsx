@@ -875,10 +875,17 @@ function FiscalMonitorPro() {
       <section className="border-y bg-card">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 md:flex-row md:items-center md:justify-between md:px-8">
           <div>
-            <p className="text-sm font-semibold text-primary">Contato comercial e alertas demonstrativos</p>
-            <p className="text-muted-foreground">Todas as comunicações provisórias ficam centralizadas neste e-mail.</p>
+            <p className="text-sm font-semibold text-primary">
+              Contato comercial e alertas demonstrativos
+            </p>
+            <p className="text-muted-foreground">
+              Todas as comunicações provisórias ficam centralizadas neste e-mail.
+            </p>
           </div>
-          <a className="text-lg font-semibold text-foreground underline-offset-4 hover:underline" href={`mailto:${defaultContactEmail}`}>
+          <a
+            className="text-lg font-semibold text-foreground underline-offset-4 hover:underline"
+            href={`mailto:${defaultContactEmail}`}
+          >
             {defaultContactEmail}
           </a>
         </div>
