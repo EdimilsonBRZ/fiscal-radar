@@ -506,14 +506,12 @@ function FiscalMonitorPro() {
   const [selectedEmpresa, setSelectedEmpresa] = useState<Empresa | null>(initialEmpresas[0]);
   const [authMessage, setAuthMessage] = useState("");
 
-  const empresaById = (id: string) => empresas.find((empresa) => empresa.id === id);
-
   const enrichedDocs = useMemo(
     () =>
       documentos.map((doc) => ({
         ...doc,
         status: documentStatus(doc.vencimento),
-        empresa: empresaById(doc.empresaId)?.razaoSocial ?? "Sem empresa",
+        empresa: empresas.find((empresa) => empresa.id === doc.empresaId)?.razaoSocial ?? "Sem empresa",
       })),
     [documentos, empresas],
   );
