@@ -1270,47 +1270,39 @@ function DashboardSection({
   tarefas: Tarefa[];
   setActive: (id: string) => void;
 }) {
-  const chartData = [
-    {
-      name: "Fiscal",
-      value:
-        obrigacoes.filter((item) => item.tipo.includes("DCTF") || item.tipo.includes("SPED"))
-          .length + 2,
-    },
-    {
-      name: "Trabalhista",
-      value: documentos.filter((item) => item.tipo === "Trabalhista").length + 1,
-    },
-    {
-      name: "Certidões",
-      value: documentos.filter((item) => item.tipo.includes("CND") || item.tipo === "FGTS").length,
-    },
-    { name: "Alvarás", value: documentos.filter((item) => item.tipo.includes("Alvará")).length },
-    {
-      name: "Certificado",
-      value: documentos.filter((item) => item.tipo.includes("Certificado")).length,
-    },
-    { name: "Mensais", value: obrigacoes.length },
+  const pendencias = [
+    ...documentos.filter((item) => item.status !== "Válido").map((item) => ({ tipo: item.tipo, responsavel: empresas.find((empresa) => empresa.id === item.empresaId)?.responsavel ?? "Equipe Fiscal" })),
+    ...obrigacoes.filter((item) => item.status === "Atrasada" || item.status === "Pendente").map((item) => ({ tipo: item.tipo, responsavel: item.responsavel })),
+    ...tarefas.filter((item) => item.status !== "Concluído").map((item) => ({ tipo: item.tipo, responsavel: item.responsavel })),
   ];
+  const chartData = groupCount(pendencias, "tipo").slice(0, 8);
+  const responsavelData = groupCount(pendencias, "responsavel");
   const ranking = [...empresas].sort((a, b) => b.risco - a.risco).slice(0, 5);
+  const prioridadesDia = [
+    ...documentos.filter((d) => d.status !== "Válido").map((d) => ({ label: d.tipo, company: d.empresa, date: d.vencimento, tone: d.status === "Vencido" ? "critical" : "warning" })),
+    ...tarefas.filter((t) => t.status === "Atrasado" || t.prioridade === "Crítica").map((t) => ({ label: t.titulo, company: empresaName(empresas, t.empresaId), date: t.limite, tone: t.status === "Atrasado" ? "critical" : "warning" })),
+  ].sort((a, b) => a.date.localeCompare(b.date)).slice(0, 5);
   return (
     <div className="space-y-6">
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-6">
-        <Kpi icon={Building2} label="Empresas" value={metrics.empresas} />
+        <Kpi icon={Building2} label="Total de empresas" value={metrics.empresas} />
         <Kpi icon={AlertTriangle} label="Pendências" value={metrics.abertas} tone="warning" />
-        <Kpi icon={FileText} label="Vencidos" value={metrics.vencidos} tone="critical" />
-        <Kpi icon={Clock} label="Vencem 30 dias" value={metrics.vencendo} tone="warning" />
-        <Kpi icon={ShieldCheck} label="Certificados" value={metrics.certs} tone="critical" />
+        <Kpi icon={FileText} label="Docs vencidos" value={metrics.vencidos} tone="critical" />
+        <Kpi icon={Clock} label="Docs 30 dias" value={metrics.vencendo} tone="warning" />
         <Kpi
           icon={ClipboardCheck}
           label="Obrigações atrasadas"
           value={metrics.atrasadas}
           tone="critical"
         />
+        <Kpi icon={ShieldCheck} label="Tarefas pendentes" value={metrics.tarefasPendentes} tone="warning" />
+      </div>
+      <div className="rounded-xl border bg-secondary/45 p-4 text-sm text-muted-foreground">
+        {demoObservation}
       </div>
       <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
         <Card
-          title="Radar Contábil"
+          title="Radar PrazoContábil"
           icon={Radar}
           action={
             <Button variant="success" onClick={() => setActive("alertas")}>
@@ -1319,38 +1311,11 @@ function DashboardSection({
           }
         >
           <div className="grid gap-3 md:grid-cols-2">
-            {[
-              [
-                "Empresas em situação crítica",
-                ranking.filter((e) => e.risco >= 71).length,
-                "critical",
-              ],
-              [
-                "Documentos que vencem primeiro",
-                documentos.filter((d) => d.status === "Vencendo").length,
-                "warning",
-              ],
-              [
-                "Obrigações atrasadas",
-                obrigacoes.filter((o) => o.status === "Atrasada").length,
-                "critical",
-              ],
-              [
-                "Clientes precisam enviar docs",
-                tarefas.filter((t) => t.status === "Aguardando cliente").length,
-                "warning",
-              ],
-              [
-                "Certificados próximos",
-                documentos.filter((d) => d.tipo === "Certificado Digital" && d.status !== "Válido")
-                  .length,
-                "critical",
-              ],
-              ["Responsável mais carregado", "Diego", "success"],
-            ].map(([label, value, tone]) => (
+            {prioridadesDia.map((item) => (
               <div className="rounded-xl border bg-secondary/45 p-4" key={label}>
-                <Badge tone={tone as Tone}>{String(value)}</Badge>
-                <p className="mt-3 text-sm font-medium">{label}</p>
+                <Badge tone={item.tone as Tone}>{formatDate(item.date)}</Badge>
+                <p className="mt-3 text-sm font-medium">{item.label}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{item.company}</p>
               </div>
             ))}
           </div>
@@ -1369,8 +1334,21 @@ function DashboardSection({
           </div>
         </Card>
       </div>
-      <div className="grid gap-6 xl:grid-cols-[1fr_0.8fr]">
-        <Card title="Empresas com maior risco" icon={Gauge}>
+      <div className="grid gap-6 xl:grid-cols-2">
+        <Card title="Pendências por responsável" icon={Users}>
+          <div className="h-72">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={responsavelData}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={11} />
+                <YAxis tickLine={false} axisLine={false} fontSize={11} />
+                <Tooltip />
+                <Bar dataKey="value" radius={[8, 8, 0, 0]} fill="var(--color-chart-2)" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </Card>
+        <Card title="Ranking de empresas críticas" icon={Gauge}>
           <div className="overflow-x-auto">
             <table className="w-full min-w-[680px] text-sm">
               <thead>
