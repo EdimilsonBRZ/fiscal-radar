@@ -1605,6 +1605,13 @@ function EmpresaPanel({
           <Info label="E-mail" value={empresa.email} />
           <Info label="Status" value={empresa.status} />
           <Info label="Telefone" value={empresa.telefone} />
+          <Info label="Natureza jurídica" value={empresa.naturezaJuridica} />
+          <Info label="Setor" value={empresa.setor} />
+          <Info label="Endereço" value={empresa.endereco} />
+          <Info label="CEP" value={empresa.cep} />
+        </div>
+        <div className="rounded-xl border bg-secondary/45 p-4 text-sm text-muted-foreground">
+          {empresa.observacao} {demoObservation}
         </div>
         <ModuleList
           title="Pendências fiscais"
