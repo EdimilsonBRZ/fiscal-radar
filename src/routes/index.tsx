@@ -55,13 +55,13 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Radar Contábil — Fiscal Monitor Pro" },
+      { title: "PrazoContábil — Gestão fiscal B2B" },
       {
         name: "description",
         content:
           "SaaS contábil para monitorar CNDs, certificados, alvarás, obrigações e pendências fiscais por CNPJ.",
       },
-      { property: "og:title", content: "Radar Contábil — Fiscal Monitor Pro" },
+      { property: "og:title", content: "PrazoContábil — Gestão fiscal B2B" },
       {
         property: "og:description",
         content: "Controle a rotina fiscal dos seus clientes sem depender de planilhas.",
@@ -803,8 +803,8 @@ function FiscalMonitorPro() {
               <Radar className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-sm text-panel-foreground/70">RADAR CONTÁBIL</p>
-              <strong>Fiscal Monitor Pro</strong>
+              <p className="text-sm text-panel-foreground/70">PRAZOCONTÁBIL</p>
+              <strong>Gestão fiscal B2B</strong>
             </div>
           </div>
           <nav className="space-y-1 p-3">
@@ -867,8 +867,8 @@ function FiscalMonitorPro() {
               <Radar className="h-5 w-5" />
             </div>
             <div>
-              <strong>Radar Contábil</strong>
-              <p className="text-xs text-muted-foreground">Fiscal Monitor Pro</p>
+              <strong>PrazoContábil</strong>
+              <p className="text-xs text-muted-foreground">Gestão fiscal B2B</p>
             </div>
           </div>
           <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
@@ -886,7 +886,7 @@ function FiscalMonitorPro() {
           <div className="max-w-3xl">
             <Badge tone="success">Radar automático de risco fiscal</Badge>
             <h1 className="mt-6 text-4xl font-bold leading-tight md:text-6xl">
-              Controle a rotina fiscal dos seus clientes sem depender de planilhas.
+              Controle prazos fiscais, documentos e riscos por CNPJ.
             </h1>
             <p className="mt-6 text-lg text-muted-foreground md:text-xl">
               Monitore vencimentos, documentos, obrigações e pendências contábeis com alertas
@@ -924,7 +924,7 @@ function FiscalMonitorPro() {
             <div className="absolute inset-x-4 bottom-4 rounded-2xl border bg-card/95 p-4 shadow-2xl backdrop-blur md:inset-x-8 md:bottom-8">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="text-sm text-muted-foreground">Radar Contábil</p>
+                  <p className="text-sm text-muted-foreground">PrazoContábil</p>
                   <h2 className="text-xl font-semibold">Prioridade fiscal hoje</h2>
                 </div>
                 <Badge tone="critical">7 críticas</Badge>
@@ -992,8 +992,8 @@ function FiscalMonitorPro() {
                 Menos apagão fiscal, mais previsibilidade para o escritório.
               </h2>
               <p className="mt-4 text-muted-foreground">
-                A landing agora usa fotos reais, thumbnails consistentes e uma leitura mais
-                comercial para vender confiança.
+                Fotos profissionais, painéis objetivos e indicadores por risco reforçam confiança
+                comercial para escritórios e departamentos fiscais.
               </p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
@@ -2116,10 +2116,75 @@ function RelatoriosSection({
     "Certificados digitais próximos do vencimento",
     "Alvarás vencidos",
   ];
+  const [reportFilter, setReportFilter] = useState({
+    empresa: "",
+    natureza: "Todos",
+    setor: "Todos",
+    uf: "Todos",
+    municipio: "Todos",
+    status: "Todos",
+    tipo: "Todos",
+    competencia: "Todos",
+    responsavel: "Todos",
+    prioridade: "Todos",
+  });
+  const filteredReportEmpresas = empresas.filter((empresa) => {
+    const term = reportFilter.empresa.toLowerCase();
+    return (
+      [empresa.razaoSocial, empresa.fantasia, empresa.cnpj].some((value) =>
+        value.toLowerCase().includes(term),
+      ) &&
+      (reportFilter.natureza === "Todos" || empresa.naturezaJuridica === reportFilter.natureza) &&
+      (reportFilter.setor === "Todos" || empresa.setor === reportFilter.setor) &&
+      (reportFilter.uf === "Todos" || empresa.uf === reportFilter.uf) &&
+      (reportFilter.municipio === "Todos" || empresa.municipio === reportFilter.municipio) &&
+      (reportFilter.responsavel === "Todos" || empresa.responsavel === reportFilter.responsavel)
+    );
+  });
+  const selectedIds = new Set(filteredReportEmpresas.map((empresa) => empresa.id));
+  const filteredReportDocs = documentos.filter(
+    (doc) =>
+      selectedIds.has(doc.empresaId) &&
+      (reportFilter.status === "Todos" || doc.status === reportFilter.status) &&
+      (reportFilter.tipo === "Todos" || doc.tipo === reportFilter.tipo),
+  );
+  const filteredReportObrigacoes = obrigacoes.filter(
+    (item) =>
+      selectedIds.has(item.empresaId) &&
+      (reportFilter.status === "Todos" || item.status === reportFilter.status) &&
+      (reportFilter.tipo === "Todos" || item.tipo === reportFilter.tipo) &&
+      (reportFilter.competencia === "Todos" || item.competencia === reportFilter.competencia) &&
+      (reportFilter.responsavel === "Todos" || item.responsavel === reportFilter.responsavel),
+  );
+  const filteredReportTarefas = tarefas.filter(
+    (task) =>
+      selectedIds.has(task.empresaId) &&
+      (reportFilter.status === "Todos" || task.status === reportFilter.status) &&
+      (reportFilter.tipo === "Todos" || task.tipo === reportFilter.tipo) &&
+      (reportFilter.responsavel === "Todos" || task.responsavel === reportFilter.responsavel) &&
+      (reportFilter.prioridade === "Todos" || task.prioridade === reportFilter.prioridade),
+  );
+  const updateFilter = (key: keyof typeof reportFilter, value: string) =>
+    setReportFilter((current) => ({ ...current, [key]: value }));
   const exportCsv = () => {
     const csv = [
-      "razao_social,cnpj,risco,status",
-      ...empresas.map((e) => `${e.razaoSocial},${e.cnpj},${e.risco},${riskStatus(e.risco)}`),
+      "razao_social,nome_fantasia,cnpj,natureza_juridica,setor,uf,municipio,responsavel,risco,status",
+      ...filteredReportEmpresas.map((e) =>
+        [
+          e.razaoSocial,
+          e.fantasia,
+          e.cnpj,
+          e.naturezaJuridica,
+          e.setor,
+          e.uf,
+          e.municipio,
+          e.responsavel,
+          e.risco,
+          riskStatus(e.risco),
+        ]
+          .map(csvValue)
+          .join(","),
+      ),
     ].join("\n");
     const url = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
     const a = document.createElement("a");
@@ -2132,27 +2197,106 @@ function RelatoriosSection({
     <div className="grid gap-6 xl:grid-cols-[0.8fr_1.2fr]">
       <Card title="Filtros de relatório" icon={Filter}>
         <div className="space-y-3">
-          <Input placeholder="Empresa ou CNPJ" />
-          <select className="h-10 w-full rounded-md border bg-background px-3 text-sm">
-            <option>Status</option>
-            <option>Vencido</option>
-            <option>Vencendo</option>
-            <option>Atrasada</option>
+          <Input
+            value={reportFilter.empresa}
+            onChange={(event) => updateFilter("empresa", event.target.value)}
+            placeholder="CNPJ, razão social ou nome fantasia"
+          />
+          <select
+            className="h-10 w-full rounded-md border bg-background px-3 text-sm"
+            value={reportFilter.natureza}
+            onChange={(event) => updateFilter("natureza", event.target.value)}
+          >
+            <option>Todos</option>
+            {[...new Set(empresas.map((e) => e.naturezaJuridica))].map((value) => (
+              <option key={value}>{value}</option>
+            ))}
           </select>
-          <Input type="date" />
-          <select className="h-10 w-full rounded-md border bg-background px-3 text-sm">
-            <option>Responsável</option>
+          <select
+            className="h-10 w-full rounded-md border bg-background px-3 text-sm"
+            value={reportFilter.setor}
+            onChange={(event) => updateFilter("setor", event.target.value)}
+          >
+            <option>Todos</option>
+            {[...new Set(empresas.map((e) => e.setor))].map((value) => (
+              <option key={value}>{value}</option>
+            ))}
+          </select>
+          <div className="grid grid-cols-2 gap-3">
+            <select
+              className="h-10 w-full rounded-md border bg-background px-3 text-sm"
+              value={reportFilter.uf}
+              onChange={(event) => updateFilter("uf", event.target.value)}
+            >
+              <option>Todos</option>
+              {[...new Set(empresas.map((e) => e.uf))].map((value) => (
+                <option key={value}>{value}</option>
+              ))}
+            </select>
+            <select
+              className="h-10 w-full rounded-md border bg-background px-3 text-sm"
+              value={reportFilter.municipio}
+              onChange={(event) => updateFilter("municipio", event.target.value)}
+            >
+              <option>Todos</option>
+              {[...new Set(empresas.map((e) => e.municipio))].map((value) => (
+                <option key={value}>{value}</option>
+              ))}
+            </select>
+          </div>
+          <select
+            className="h-10 w-full rounded-md border bg-background px-3 text-sm"
+            value={reportFilter.status}
+            onChange={(event) => updateFilter("status", event.target.value)}
+          >
+            <option>Todos</option>
+            {["Válido", "Vencendo", "Vencido", "Pendente", "Em andamento", "Entregue", "Atrasada", "A fazer", "Aguardando cliente", "Concluído", "Atrasado"].map((value) => (
+              <option key={value}>{value}</option>
+            ))}
+          </select>
+          <select
+            className="h-10 w-full rounded-md border bg-background px-3 text-sm"
+            value={reportFilter.tipo}
+            onChange={(event) => updateFilter("tipo", event.target.value)}
+          >
+            <option>Todos</option>
+            {[...tiposDocumento, ...tiposObrigacao, "Certificado", "Obrigação", "Relatório", "Documento"].map((value) => (
+              <option key={value}>{value}</option>
+            ))}
+          </select>
+          <select
+            className="h-10 w-full rounded-md border bg-background px-3 text-sm"
+            value={reportFilter.competencia}
+            onChange={(event) => updateFilter("competencia", event.target.value)}
+          >
+            <option>Todos</option>
+            {competenciasDemo.map((value) => (
+              <option key={value}>{value}</option>
+            ))}
+          </select>
+          <select
+            className="h-10 w-full rounded-md border bg-background px-3 text-sm"
+            value={reportFilter.responsavel}
+            onChange={(event) => updateFilter("responsavel", event.target.value)}
+          >
+            <option>Todos</option>
             {responsaveis.map((r) => (
               <option key={r}>{r}</option>
             ))}
           </select>
-          <select className="h-10 w-full rounded-md border bg-background px-3 text-sm">
-            <option>Competência</option>
-            <option>Janeiro</option>
-            <option>Fevereiro</option>
-            <option>Março</option>
-            <option>Abril</option>
+          <select
+            className="h-10 w-full rounded-md border bg-background px-3 text-sm"
+            value={reportFilter.prioridade}
+            onChange={(event) => updateFilter("prioridade", event.target.value)}
+          >
+            <option>Todos</option>
+            {["Baixa", "Média", "Alta", "Crítica"].map((value) => (
+              <option key={value}>{value}</option>
+            ))}
           </select>
+          <p className="rounded-lg bg-secondary/55 p-3 text-xs text-muted-foreground">
+            Resultado: {filteredReportEmpresas.length} empresas, {filteredReportDocs.length} documentos, {filteredReportObrigacoes.length} obrigações e {filteredReportTarefas.length} tarefas.
+          </p>
           <div className="grid grid-cols-2 gap-3">
             <Button variant="outline" onClick={exportCsv}>
               <FileSpreadsheet className="h-4 w-4" />
@@ -2489,6 +2633,9 @@ function toneFromRisk(score: number): Tone {
 }
 function onlyDigits(value: string) {
   return value.replace(/\D/g, "");
+}
+function csvValue(value: string | number) {
+  return `"${String(value).replaceAll('"', '""')}"`;
 }
 function isValidCnpj(value: string) {
   const cnpj = onlyDigits(value);
