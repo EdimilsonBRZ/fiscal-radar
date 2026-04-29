@@ -2197,27 +2197,106 @@ function RelatoriosSection({
     <div className="grid gap-6 xl:grid-cols-[0.8fr_1.2fr]">
       <Card title="Filtros de relatório" icon={Filter}>
         <div className="space-y-3">
-          <Input placeholder="Empresa ou CNPJ" />
-          <select className="h-10 w-full rounded-md border bg-background px-3 text-sm">
-            <option>Status</option>
-            <option>Vencido</option>
-            <option>Vencendo</option>
-            <option>Atrasada</option>
+          <Input
+            value={reportFilter.empresa}
+            onChange={(event) => updateFilter("empresa", event.target.value)}
+            placeholder="CNPJ, razão social ou nome fantasia"
+          />
+          <select
+            className="h-10 w-full rounded-md border bg-background px-3 text-sm"
+            value={reportFilter.natureza}
+            onChange={(event) => updateFilter("natureza", event.target.value)}
+          >
+            <option>Todos</option>
+            {[...new Set(empresas.map((e) => e.naturezaJuridica))].map((value) => (
+              <option key={value}>{value}</option>
+            ))}
           </select>
-          <Input type="date" />
-          <select className="h-10 w-full rounded-md border bg-background px-3 text-sm">
-            <option>Responsável</option>
+          <select
+            className="h-10 w-full rounded-md border bg-background px-3 text-sm"
+            value={reportFilter.setor}
+            onChange={(event) => updateFilter("setor", event.target.value)}
+          >
+            <option>Todos</option>
+            {[...new Set(empresas.map((e) => e.setor))].map((value) => (
+              <option key={value}>{value}</option>
+            ))}
+          </select>
+          <div className="grid grid-cols-2 gap-3">
+            <select
+              className="h-10 w-full rounded-md border bg-background px-3 text-sm"
+              value={reportFilter.uf}
+              onChange={(event) => updateFilter("uf", event.target.value)}
+            >
+              <option>Todos</option>
+              {[...new Set(empresas.map((e) => e.uf))].map((value) => (
+                <option key={value}>{value}</option>
+              ))}
+            </select>
+            <select
+              className="h-10 w-full rounded-md border bg-background px-3 text-sm"
+              value={reportFilter.municipio}
+              onChange={(event) => updateFilter("municipio", event.target.value)}
+            >
+              <option>Todos</option>
+              {[...new Set(empresas.map((e) => e.municipio))].map((value) => (
+                <option key={value}>{value}</option>
+              ))}
+            </select>
+          </div>
+          <select
+            className="h-10 w-full rounded-md border bg-background px-3 text-sm"
+            value={reportFilter.status}
+            onChange={(event) => updateFilter("status", event.target.value)}
+          >
+            <option>Todos</option>
+            {["Válido", "Vencendo", "Vencido", "Pendente", "Em andamento", "Entregue", "Atrasada", "A fazer", "Aguardando cliente", "Concluído", "Atrasado"].map((value) => (
+              <option key={value}>{value}</option>
+            ))}
+          </select>
+          <select
+            className="h-10 w-full rounded-md border bg-background px-3 text-sm"
+            value={reportFilter.tipo}
+            onChange={(event) => updateFilter("tipo", event.target.value)}
+          >
+            <option>Todos</option>
+            {[...tiposDocumento, ...tiposObrigacao, "Certificado", "Obrigação", "Relatório", "Documento"].map((value) => (
+              <option key={value}>{value}</option>
+            ))}
+          </select>
+          <select
+            className="h-10 w-full rounded-md border bg-background px-3 text-sm"
+            value={reportFilter.competencia}
+            onChange={(event) => updateFilter("competencia", event.target.value)}
+          >
+            <option>Todos</option>
+            {competenciasDemo.map((value) => (
+              <option key={value}>{value}</option>
+            ))}
+          </select>
+          <select
+            className="h-10 w-full rounded-md border bg-background px-3 text-sm"
+            value={reportFilter.responsavel}
+            onChange={(event) => updateFilter("responsavel", event.target.value)}
+          >
+            <option>Todos</option>
             {responsaveis.map((r) => (
               <option key={r}>{r}</option>
             ))}
           </select>
-          <select className="h-10 w-full rounded-md border bg-background px-3 text-sm">
-            <option>Competência</option>
-            <option>Janeiro</option>
-            <option>Fevereiro</option>
-            <option>Março</option>
-            <option>Abril</option>
+          <select
+            className="h-10 w-full rounded-md border bg-background px-3 text-sm"
+            value={reportFilter.prioridade}
+            onChange={(event) => updateFilter("prioridade", event.target.value)}
+          >
+            <option>Todos</option>
+            {["Baixa", "Média", "Alta", "Crítica"].map((value) => (
+              <option key={value}>{value}</option>
+            ))}
           </select>
+          <p className="rounded-lg bg-secondary/55 p-3 text-xs text-muted-foreground">
+            Resultado: {filteredReportEmpresas.length} empresas, {filteredReportDocs.length} documentos, {filteredReportObrigacoes.length} obrigações e {filteredReportTarefas.length} tarefas.
+          </p>
           <div className="grid grid-cols-2 gap-3">
             <Button variant="outline" onClick={exportCsv}>
               <FileSpreadsheet className="h-4 w-4" />
