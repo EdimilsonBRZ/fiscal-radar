@@ -76,9 +76,14 @@ type Empresa = {
   razaoSocial: string;
   fantasia: string;
   cnpj: string;
+  naturezaJuridica: string;
+  setor: string;
+  endereco: string;
+  cep: string;
   ie: string;
   im: string;
   regime: string;
+  observacao: string;
   uf: string;
   municipio: string;
   email: string;
@@ -130,20 +135,20 @@ const iso = (offset: number) => {
   return d.toISOString().slice(0, 10);
 };
 
-const responsaveis = ["Ana Martins", "Bruno Costa", "Camila Rocha", "Diego Alves"];
+const responsaveis = ["Equipe Fiscal", "Ana Martins", "Bruno Costa", "Camila Rocha", "Diego Alves"];
 const defaultContactEmail = "edicunhabr@gmail.com";
 const defaultAccessPassword = "-205511";
+const demoObservation =
+  "Dados demonstrativos criados para teste do PrazoContábil. As empresas cadastradas usam informações públicas básicas e documentos fictícios para simulação de vencimentos, obrigações e alertas.";
+const demoRegimeObservation = "Regime usado apenas para demonstração/teste; confirmar em uso real.";
 const tiposDocumento = [
   "CND Federal",
   "CND Estadual",
   "CND Municipal",
-  "FGTS",
-  "Trabalhista",
-  "Alvará Municipal",
-  "Alvará de Bombeiros",
   "Certificado Digital",
-  "Contratos",
-  "Outros documentos",
+  "Alvará Municipal",
+  "Certidão FGTS",
+  "Certidão Trabalhista",
 ];
 const tiposObrigacao = [
   "DCTFWeb",
@@ -151,13 +156,12 @@ const tiposObrigacao = [
   "eSocial",
   "SPED Fiscal",
   "SPED Contribuições",
-  "PGDAS-D",
-  "DEFIS",
-  "DIRF",
   "ECD",
   "ECF",
   "MIT",
+  "Outras obrigações",
 ];
+const competenciasDemo = ["01/2026", "02/2026", "03/2026", "04/2026"];
 
 const audienceCards = [
   {
@@ -247,240 +251,325 @@ const planCards = [
 
 const initialEmpresas: Empresa[] = [
   {
-    id: "e1",
-    razaoSocial: "Aurum Comércio de Alimentos Ltda",
-    fantasia: "Aurum Foods",
-    cnpj: "12.345.678/0001-90",
-    ie: "110.042.129.114",
-    im: "54890",
-    regime: "Lucro Presumido",
-    uf: "SP",
-    municipio: "São Paulo",
-    email: defaultContactEmail,
-    telefone: "(11) 4002-1122",
-    responsavel: "Ana Martins",
-    status: "Ativa",
-    risco: 86,
-  },
-  {
-    id: "e2",
-    razaoSocial: "Nexo Engenharia e Serviços S.A.",
-    fantasia: "Nexo Engenharia",
-    cnpj: "21.764.998/0001-33",
-    ie: "445.871.309.010",
-    im: "90123",
+    id: "bb",
+    razaoSocial: "Banco do Brasil S.A.",
+    fantasia: "Banco do Brasil / Direção Geral",
+    cnpj: "00.000.000/0001-91",
+    naturezaJuridica: "Sociedade de Economia Mista",
+    setor: "Bancário",
+    endereco: "SAUN Quadra 5, Lote B, Asa Norte, Brasília-DF",
+    cep: "70040-912",
+    ie: "Não informado",
+    im: "Não informado",
     regime: "Lucro Real",
-    uf: "RJ",
-    municipio: "Rio de Janeiro",
-    email: defaultContactEmail,
-    telefone: "(21) 3555-0808",
-    responsavel: "Bruno Costa",
+    observacao: demoRegimeObservation,
+    uf: "DF",
+    municipio: "Brasília",
+    email: "cliente-demo-bb@example.com",
+    telefone: "",
+    responsavel: "Equipe Fiscal",
     status: "Ativa",
-    risco: 62,
+    risco: 92,
   },
   {
-    id: "e3",
-    razaoSocial: "Clínica Vista Sul Ltda",
-    fantasia: "Vista Sul",
-    cnpj: "08.991.220/0001-44",
-    ie: "Isento",
-    im: "77310",
-    regime: "Simples Nacional",
-    uf: "PR",
-    municipio: "Curitiba",
-    email: defaultContactEmail,
-    telefone: "(41) 3222-3311",
-    responsavel: "Camila Rocha",
-    status: "Ativa",
-    risco: 28,
-  },
-  {
-    id: "e4",
-    razaoSocial: "Grupo Prisma Logística Ltda",
-    fantasia: "Prisma Log",
-    cnpj: "33.812.101/0001-66",
-    ie: "883.200.445.119",
-    im: "10022",
-    regime: "Lucro Presumido",
-    uf: "MG",
-    municipio: "Belo Horizonte",
-    email: defaultContactEmail,
-    telefone: "(31) 3003-2020",
-    responsavel: "Diego Alves",
+    id: "caixa",
+    razaoSocial: "Caixa Econômica Federal",
+    fantasia: "CAIXA / CEF Matriz",
+    cnpj: "00.360.305/0001-04",
+    naturezaJuridica: "Empresa Pública",
+    setor: "Bancário",
+    endereco: "SBS Quadra 4, Lote 3/4, Asa Sul, Brasília-DF",
+    cep: "70070-140",
+    ie: "Não informado",
+    im: "Não informado",
+    regime: "Lucro Real",
+    observacao: demoRegimeObservation,
+    uf: "DF",
+    municipio: "Brasília",
+    email: "cliente-demo-caixa@example.com",
+    telefone: "",
+    responsavel: "Equipe Fiscal",
     status: "Ativa",
     risco: 74,
   },
   {
-    id: "e5",
-    razaoSocial: "Prisma Logística Filial Campinas",
-    fantasia: "Prisma Campinas",
-    cnpj: "33.812.101/0002-47",
-    ie: "244.760.990.010",
-    im: "55320",
-    regime: "Lucro Presumido",
-    uf: "SP",
-    municipio: "Campinas",
-    email: defaultContactEmail,
-    telefone: "(19) 3444-7890",
-    responsavel: "Diego Alves",
+    id: "petrobras",
+    razaoSocial: "Petróleo Brasileiro S.A. - Petrobras",
+    fantasia: "Petrobras",
+    cnpj: "33.000.167/0001-01",
+    naturezaJuridica: "Sociedade de Economia Mista",
+    setor: "Energia, petróleo e gás",
+    endereco: "Rua Henrique Valadares, 28, Centro, Rio de Janeiro-RJ",
+    cep: "20231-030",
+    ie: "Não informado",
+    im: "Não informado",
+    regime: "Lucro Real",
+    observacao: demoRegimeObservation,
+    uf: "RJ",
+    municipio: "Rio de Janeiro",
+    email: "cliente-demo-petrobras@example.com",
+    telefone: "",
+    responsavel: "Equipe Fiscal",
     status: "Ativa",
-    matriz: "e4",
-    risco: 43,
+    risco: 88,
+  },
+  {
+    id: "correios",
+    razaoSocial: "Empresa Brasileira de Correios e Telégrafos",
+    fantasia: "Correios",
+    cnpj: "34.028.316/0001-03",
+    naturezaJuridica: "Empresa Pública",
+    setor: "Logística e serviços postais",
+    endereco: "Não informado",
+    cep: "Não informado",
+    ie: "Não informado",
+    im: "Não informado",
+    regime: "Lucro Real",
+    observacao: demoRegimeObservation,
+    uf: "DF",
+    municipio: "Brasília",
+    email: "cliente-demo-correios@example.com",
+    telefone: "",
+    responsavel: "Equipe Fiscal",
+    status: "Ativa",
+    risco: 67,
+  },
+  {
+    id: "bndes",
+    razaoSocial: "Banco Nacional de Desenvolvimento Econômico e Social",
+    fantasia: "BNDES",
+    cnpj: "33.657.248/0001-89",
+    naturezaJuridica: "Empresa Pública",
+    setor: "Desenvolvimento econômico e financiamento",
+    endereco: "Não informado",
+    cep: "Não informado",
+    ie: "Não informado",
+    im: "Não informado",
+    regime: "Lucro Real",
+    observacao: demoRegimeObservation,
+    uf: "RJ",
+    municipio: "Rio de Janeiro",
+    email: "cliente-demo-bndes@example.com",
+    telefone: "",
+    responsavel: "Equipe Fiscal",
+    status: "Ativa",
+    risco: 52,
+  },
+  {
+    id: "serpro",
+    razaoSocial: "Serviço Federal de Processamento de Dados",
+    fantasia: "SERPRO",
+    cnpj: "33.683.111/0001-07",
+    naturezaJuridica: "Empresa Pública Federal",
+    setor: "Tecnologia da informação e governo digital",
+    endereco: "SGAN Quadra 601, Módulo V, Brasília-DF",
+    cep: "70836-900",
+    ie: "Não informado",
+    im: "Não informado",
+    regime: "Lucro Real",
+    observacao: demoRegimeObservation,
+    uf: "DF",
+    municipio: "Brasília",
+    email: "cliente-demo-serpro@example.com",
+    telefone: "",
+    responsavel: "Equipe Fiscal",
+    status: "Ativa",
+    risco: 46,
+  },
+  {
+    id: "dataprev",
+    razaoSocial: "Empresa de Tecnologia e Informações da Previdência S.A.",
+    fantasia: "Dataprev",
+    cnpj: "42.422.253/0001-01",
+    naturezaJuridica: "Empresa Pública",
+    setor: "Tecnologia da informação previdenciária",
+    endereco: "Não informado",
+    cep: "Não informado",
+    ie: "Não informado",
+    im: "Não informado",
+    regime: "Lucro Real",
+    observacao: demoRegimeObservation,
+    uf: "DF",
+    municipio: "Brasília",
+    email: "cliente-demo-dataprev@example.com",
+    telefone: "",
+    responsavel: "Equipe Fiscal",
+    status: "Ativa",
+    risco: 61,
+  },
+  {
+    id: "embrapa",
+    razaoSocial: "Empresa Brasileira de Pesquisa Agropecuária",
+    fantasia: "Embrapa",
+    cnpj: "00.348.003/0001-10",
+    naturezaJuridica: "Empresa Pública",
+    setor: "Pesquisa agropecuária",
+    endereco: "Não informado",
+    cep: "Não informado",
+    ie: "07.316.897/001-00",
+    im: "Não informado",
+    regime: "Lucro Real",
+    observacao: demoRegimeObservation,
+    uf: "DF",
+    municipio: "Brasília",
+    email: "cliente-demo-embrapa@example.com",
+    telefone: "",
+    responsavel: "Equipe Fiscal",
+    status: "Ativa",
+    risco: 39,
+  },
+  {
+    id: "infraero",
+    razaoSocial: "Empresa Brasileira de Infraestrutura Aeroportuária",
+    fantasia: "Infraero",
+    cnpj: "00.352.294/0001-10",
+    naturezaJuridica: "Empresa Pública Federal",
+    setor: "Infraestrutura aeroportuária",
+    endereco: "Não informado",
+    cep: "Não informado",
+    ie: "Não informado",
+    im: "Não informado",
+    regime: "Lucro Real",
+    observacao: demoRegimeObservation,
+    uf: "DF",
+    municipio: "Brasília",
+    email: "cliente-demo-infraero@example.com",
+    telefone: "",
+    responsavel: "Equipe Fiscal",
+    status: "Ativa",
+    risco: 83,
+  },
+  {
+    id: "conab",
+    razaoSocial: "Companhia Nacional de Abastecimento",
+    fantasia: "Conab",
+    cnpj: "26.461.699/0001-80",
+    naturezaJuridica: "Empresa Pública",
+    setor: "Abastecimento, logística e políticas agrícolas",
+    endereco: "Não informado",
+    cep: "Não informado",
+    ie: "Não informado",
+    im: "Não informado",
+    regime: "Lucro Real",
+    observacao: demoRegimeObservation,
+    uf: "DF",
+    municipio: "Brasília",
+    email: "cliente-demo-conab@example.com",
+    telefone: "",
+    responsavel: "Equipe Fiscal",
+    status: "Ativa",
+    risco: 58,
+  },
+  {
+    id: "ebc",
+    razaoSocial: "Empresa Brasil de Comunicação S.A.",
+    fantasia: "EBC / TV Brasil",
+    cnpj: "09.168.704/0001-42",
+    naturezaJuridica: "Empresa Pública / Sociedade Anônima",
+    setor: "Comunicação pública",
+    endereco: "Não informado",
+    cep: "Não informado",
+    ie: "Não informado",
+    im: "Não informado",
+    regime: "Lucro Real",
+    observacao: demoRegimeObservation,
+    uf: "DF",
+    municipio: "Brasília",
+    email: "cliente-demo-ebc@example.com",
+    telefone: "",
+    responsavel: "Equipe Fiscal",
+    status: "Ativa",
+    risco: 44,
   },
 ];
 
-const initialDocumentos: Documento[] = [
-  {
-    id: "d1",
-    empresaId: "e1",
-    tipo: "CND Federal",
-    numero: "CND-8831",
-    emissao: iso(-120),
-    vencimento: iso(-3),
-    observacoes: "Cliente solicitou regularização.",
-  },
-  {
-    id: "d2",
-    empresaId: "e1",
-    tipo: "Certificado Digital",
-    numero: "A1-2201",
-    emissao: iso(-320),
-    vencimento: iso(9),
-    observacoes: "Renovação com prioridade.",
-  },
-  {
-    id: "d3",
-    empresaId: "e2",
-    tipo: "FGTS",
-    numero: "FGTS-551",
-    emissao: iso(-20),
-    vencimento: iso(21),
-    observacoes: "Acompanhar baixa.",
-  },
-  {
-    id: "d4",
-    empresaId: "e3",
-    tipo: "Alvará Municipal",
-    numero: "ALV-903",
-    emissao: iso(-90),
-    vencimento: iso(120),
-    observacoes: "Ok.",
-  },
-  {
-    id: "d5",
-    empresaId: "e4",
-    tipo: "CND Estadual",
-    numero: "EST-442",
-    emissao: iso(-70),
-    vencimento: iso(-12),
-    observacoes: "Pendência de inscrição estadual.",
-  },
-  {
-    id: "d6",
-    empresaId: "e5",
-    tipo: "Alvará de Bombeiros",
-    numero: "BOM-118",
-    emissao: iso(-230),
-    vencimento: iso(29),
-    observacoes: "Solicitar vistoria.",
-  },
-];
+const docOffsets = [-18, 9, 74, -4, 26, 120, 45];
+const initialDocumentos: Documento[] = initialEmpresas.flatMap((empresa, empresaIndex) =>
+  tiposDocumento.map((tipo, tipoIndex) => {
+    const offset = docOffsets[(empresaIndex + tipoIndex) % docOffsets.length];
+    const pending = (empresaIndex + tipoIndex) % 4 === 0;
+    const attached = (empresaIndex + tipoIndex) % 3 !== 0;
+    return {
+      id: `doc-${empresa.id}-${tipoIndex + 1}`,
+      empresaId: empresa.id,
+      tipo,
+      numero: `DEMO-${String(empresaIndex + 1).padStart(2, "0")}-${String(tipoIndex + 1).padStart(2, "0")}`,
+      emissao: iso(-(tipoIndex * 24 + empresaIndex * 3 + 30)),
+      vencimento: iso(offset),
+      arquivo: attached
+        ? `${empresa.id}-${tipo.toLowerCase().replaceAll(" ", "-")}.pdf`
+        : undefined,
+      observacoes: pending
+        ? "aguardando envio pelo cliente"
+        : "Documento fictício para demonstração/teste.",
+    };
+  }),
+);
 
-const initialObrigacoes: Obrigacao[] = [
-  {
-    id: "o1",
-    empresaId: "e1",
-    competencia: "Março",
-    tipo: "DCTFWeb",
-    limite: iso(-6),
-    status: "Atrasada",
-    responsavel: "Ana Martins",
-  },
-  {
-    id: "o2",
-    empresaId: "e2",
-    competencia: "Abril",
-    tipo: "SPED Fiscal",
-    limite: iso(5),
-    status: "Em andamento",
-    responsavel: "Bruno Costa",
-  },
-  {
-    id: "o3",
-    empresaId: "e3",
-    competencia: "Abril",
-    tipo: "PGDAS-D",
-    limite: iso(11),
-    status: "Entregue",
-    responsavel: "Camila Rocha",
-    protocolo: "PG-2026-778",
-  },
-  {
-    id: "o4",
-    empresaId: "e4",
-    competencia: "Março",
-    tipo: "EFD-Reinf",
-    limite: iso(-14),
-    status: "Atrasada",
-    responsavel: "Diego Alves",
-  },
-  {
-    id: "o5",
-    empresaId: "e5",
-    competencia: "Abril",
-    tipo: "eSocial",
-    limite: iso(8),
-    status: "Pendente",
-    responsavel: "Diego Alves",
-  },
+const obrigacaoStatuses: Obrigacao["status"][] = [
+  "Pendente",
+  "Em andamento",
+  "Entregue",
+  "Atrasada",
+  "Não se aplica",
 ];
+const initialObrigacoes: Obrigacao[] = initialEmpresas.flatMap((empresa, empresaIndex) =>
+  tiposObrigacao.flatMap((tipo, tipoIndex) =>
+    competenciasDemo.map((competencia, competenciaIndex) => {
+      const seed = empresaIndex + tipoIndex + competenciaIndex;
+      return {
+        id: `obr-${empresa.id}-${tipoIndex + 1}-${competenciaIndex + 1}`,
+        empresaId: empresa.id,
+        competencia,
+        tipo,
+        limite: iso([-10, -2, 6, 15, 32][seed % 5]),
+        status: obrigacaoStatuses[seed % obrigacaoStatuses.length],
+        responsavel: "Equipe Fiscal",
+        protocolo: seed % 5 === 0 ? `PROTO-DEMO-${empresaIndex + 1}-${tipoIndex + 1}` : undefined,
+      };
+    }),
+  ),
+);
 
-const initialTarefas: Tarefa[] = [
-  {
-    id: "t1",
-    empresaId: "e1",
-    titulo: "Regularizar CND Federal",
-    tipo: "Certidão",
-    prioridade: "Crítica",
-    responsavel: "Ana Martins",
-    limite: iso(-2),
-    status: "Atrasado",
-    descricao: "Conferir débitos e anexar comprovantes.",
-  },
-  {
-    id: "t2",
-    empresaId: "e1",
-    titulo: "Renovar certificado A1",
-    tipo: "Certificado",
-    prioridade: "Alta",
-    responsavel: "Ana Martins",
-    limite: iso(7),
-    status: "Em andamento",
-    descricao: "Confirmar validação com responsável legal.",
-  },
-  {
-    id: "t3",
-    empresaId: "e2",
-    titulo: "Enviar comprovante SPED",
-    tipo: "Obrigação",
-    prioridade: "Média",
-    responsavel: "Bruno Costa",
-    limite: iso(5),
-    status: "A fazer",
-    descricao: "Aguardar fechamento fiscal.",
-  },
-  {
-    id: "t4",
-    empresaId: "e5",
-    titulo: "Solicitar AVCB atualizado",
-    tipo: "Alvará",
-    prioridade: "Alta",
-    responsavel: "Diego Alves",
-    limite: iso(12),
-    status: "Aguardando cliente",
-    descricao: "Cliente precisa enviar laudo técnico.",
-  },
+const taskTitles = [
+  "Solicitar CND atualizada",
+  "Renovar certificado digital",
+  "Conferir obrigação acessória",
+  "Cobrar documento do cliente",
+  "Revisar cadastro da empresa",
+  "Gerar relatório de pendências",
 ];
+const taskPriorities: Tarefa["prioridade"][] = ["Baixa", "Média", "Alta", "Crítica"];
+const taskStatuses: Tarefa["status"][] = [
+  "A fazer",
+  "Em andamento",
+  "Aguardando cliente",
+  "Concluído",
+  "Atrasado",
+];
+const initialTarefas: Tarefa[] = initialEmpresas.flatMap((empresa, empresaIndex) =>
+  taskTitles.map((titulo, taskIndex) => {
+    const seed = empresaIndex + taskIndex;
+    return {
+      id: `task-${empresa.id}-${taskIndex + 1}`,
+      empresaId: empresa.id,
+      titulo,
+      tipo: titulo.includes("certificado")
+        ? "Certificado"
+        : titulo.includes("obrigação")
+          ? "Obrigação"
+          : titulo.includes("relatório")
+            ? "Relatório"
+            : "Documento",
+      prioridade: taskPriorities[seed % taskPriorities.length],
+      responsavel: "Equipe Fiscal",
+      limite: iso([-3, 2, 7, 14, 28, 45][seed % 6]),
+      status: taskStatuses[seed % taskStatuses.length],
+      descricao:
+        "Tarefa demonstrativa criada para testar kanban, prioridades e radar PrazoContábil.",
+    };
+  }),
+);
 
 const nav = [
   ["dashboard", "Dashboard", LayoutDashboard],
@@ -522,16 +611,10 @@ function FiscalMonitorPro() {
   const metrics = useMemo(() => {
     const vencidos = enrichedDocs.filter((doc) => doc.status === "Vencido").length;
     const vencendo = enrichedDocs.filter((doc) => doc.status === "Vencendo").length;
-    const certs = enrichedDocs.filter(
-      (doc) => doc.tipo === "Certificado Digital" && doc.status !== "Válido",
-    ).length;
     const atrasadas = obrigacoes.filter((item) => item.status === "Atrasada").length;
-    const abertas =
-      vencidos +
-      vencendo +
-      atrasadas +
-      tarefas.filter((task) => task.status !== "Concluído").length;
-    return { empresas: empresas.length, abertas, vencidos, vencendo, certs, atrasadas };
+    const tarefasPendentes = tarefas.filter((task) => task.status !== "Concluído").length;
+    const abertas = vencidos + vencendo + atrasadas + tarefasPendentes;
+    return { empresas: empresas.length, abertas, vencidos, vencendo, atrasadas, tarefasPendentes };
   }, [empresas, enrichedDocs, obrigacoes, tarefas]);
 
   const filteredEmpresas = empresas.filter((empresa) => {
@@ -539,6 +622,10 @@ function FiscalMonitorPro() {
     const matches = [
       empresa.cnpj,
       empresa.razaoSocial,
+      empresa.fantasia,
+      empresa.naturezaJuridica,
+      empresa.setor,
+      empresa.uf,
       empresa.municipio,
       empresa.regime,
       empresa.responsavel,
@@ -564,9 +651,14 @@ function FiscalMonitorPro() {
       razaoSocial: String(form.get("razao") ?? ""),
       fantasia: String(form.get("fantasia") ?? ""),
       cnpj,
+      naturezaJuridica: String(form.get("natureza") ?? "Não informado"),
+      setor: String(form.get("setor") ?? "Não informado"),
+      endereco: String(form.get("endereco") ?? "Não informado"),
+      cep: String(form.get("cep") ?? "Não informado"),
       ie: String(form.get("ie") ?? ""),
       im: String(form.get("im") ?? ""),
       regime: String(form.get("regime") ?? "Simples Nacional"),
+      observacao: String(form.get("observacao") ?? demoRegimeObservation),
       uf: String(form.get("uf") ?? "SP"),
       municipio: String(form.get("municipio") ?? ""),
       email: String(form.get("email") ?? ""),
@@ -1175,47 +1267,70 @@ function DashboardSection({
   tarefas: Tarefa[];
   setActive: (id: string) => void;
 }) {
-  const chartData = [
-    {
-      name: "Fiscal",
-      value:
-        obrigacoes.filter((item) => item.tipo.includes("DCTF") || item.tipo.includes("SPED"))
-          .length + 2,
-    },
-    {
-      name: "Trabalhista",
-      value: documentos.filter((item) => item.tipo === "Trabalhista").length + 1,
-    },
-    {
-      name: "Certidões",
-      value: documentos.filter((item) => item.tipo.includes("CND") || item.tipo === "FGTS").length,
-    },
-    { name: "Alvarás", value: documentos.filter((item) => item.tipo.includes("Alvará")).length },
-    {
-      name: "Certificado",
-      value: documentos.filter((item) => item.tipo.includes("Certificado")).length,
-    },
-    { name: "Mensais", value: obrigacoes.length },
+  const pendencias = [
+    ...documentos
+      .filter((item) => item.status !== "Válido")
+      .map((item) => ({
+        tipo: item.tipo,
+        responsavel:
+          empresas.find((empresa) => empresa.id === item.empresaId)?.responsavel ?? "Equipe Fiscal",
+      })),
+    ...obrigacoes
+      .filter((item) => item.status === "Atrasada" || item.status === "Pendente")
+      .map((item) => ({ tipo: item.tipo, responsavel: item.responsavel })),
+    ...tarefas
+      .filter((item) => item.status !== "Concluído")
+      .map((item) => ({ tipo: item.tipo, responsavel: item.responsavel })),
   ];
+  const chartData = groupCount(pendencias, "tipo").slice(0, 8);
+  const responsavelData = groupCount(pendencias, "responsavel");
   const ranking = [...empresas].sort((a, b) => b.risco - a.risco).slice(0, 5);
+  const prioridadesDia = [
+    ...documentos
+      .filter((d) => d.status !== "Válido")
+      .map((d) => ({
+        label: d.tipo,
+        company: d.empresa,
+        date: d.vencimento,
+        tone: d.status === "Vencido" ? "critical" : "warning",
+      })),
+    ...tarefas
+      .filter((t) => t.status === "Atrasado" || t.prioridade === "Crítica")
+      .map((t) => ({
+        label: t.titulo,
+        company: empresaName(empresas, t.empresaId),
+        date: t.limite,
+        tone: t.status === "Atrasado" ? "critical" : "warning",
+      })),
+  ]
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .slice(0, 5);
   return (
     <div className="space-y-6">
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-6">
-        <Kpi icon={Building2} label="Empresas" value={metrics.empresas} />
+        <Kpi icon={Building2} label="Total de empresas" value={metrics.empresas} />
         <Kpi icon={AlertTriangle} label="Pendências" value={metrics.abertas} tone="warning" />
-        <Kpi icon={FileText} label="Vencidos" value={metrics.vencidos} tone="critical" />
-        <Kpi icon={Clock} label="Vencem 30 dias" value={metrics.vencendo} tone="warning" />
-        <Kpi icon={ShieldCheck} label="Certificados" value={metrics.certs} tone="critical" />
+        <Kpi icon={FileText} label="Docs vencidos" value={metrics.vencidos} tone="critical" />
+        <Kpi icon={Clock} label="Docs 30 dias" value={metrics.vencendo} tone="warning" />
         <Kpi
           icon={ClipboardCheck}
           label="Obrigações atrasadas"
           value={metrics.atrasadas}
           tone="critical"
         />
+        <Kpi
+          icon={ShieldCheck}
+          label="Tarefas pendentes"
+          value={metrics.tarefasPendentes}
+          tone="warning"
+        />
+      </div>
+      <div className="rounded-xl border bg-secondary/45 p-4 text-sm text-muted-foreground">
+        {demoObservation}
       </div>
       <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
         <Card
-          title="Radar Contábil"
+          title="Radar PrazoContábil"
           icon={Radar}
           action={
             <Button variant="success" onClick={() => setActive("alertas")}>
@@ -1224,38 +1339,14 @@ function DashboardSection({
           }
         >
           <div className="grid gap-3 md:grid-cols-2">
-            {[
-              [
-                "Empresas em situação crítica",
-                ranking.filter((e) => e.risco >= 71).length,
-                "critical",
-              ],
-              [
-                "Documentos que vencem primeiro",
-                documentos.filter((d) => d.status === "Vencendo").length,
-                "warning",
-              ],
-              [
-                "Obrigações atrasadas",
-                obrigacoes.filter((o) => o.status === "Atrasada").length,
-                "critical",
-              ],
-              [
-                "Clientes precisam enviar docs",
-                tarefas.filter((t) => t.status === "Aguardando cliente").length,
-                "warning",
-              ],
-              [
-                "Certificados próximos",
-                documentos.filter((d) => d.tipo === "Certificado Digital" && d.status !== "Válido")
-                  .length,
-                "critical",
-              ],
-              ["Responsável mais carregado", "Diego", "success"],
-            ].map(([label, value, tone]) => (
-              <div className="rounded-xl border bg-secondary/45 p-4" key={label}>
-                <Badge tone={tone as Tone}>{String(value)}</Badge>
-                <p className="mt-3 text-sm font-medium">{label}</p>
+            {prioridadesDia.map((item) => (
+              <div
+                className="rounded-xl border bg-secondary/45 p-4"
+                key={`${item.label}-${item.company}-${item.date}`}
+              >
+                <Badge tone={item.tone as Tone}>{formatDate(item.date)}</Badge>
+                <p className="mt-3 text-sm font-medium">{item.label}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{item.company}</p>
               </div>
             ))}
           </div>
@@ -1274,8 +1365,21 @@ function DashboardSection({
           </div>
         </Card>
       </div>
-      <div className="grid gap-6 xl:grid-cols-[1fr_0.8fr]">
-        <Card title="Empresas com maior risco" icon={Gauge}>
+      <div className="grid gap-6 xl:grid-cols-2">
+        <Card title="Pendências por responsável" icon={Users}>
+          <div className="h-72">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={responsavelData}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={11} />
+                <YAxis tickLine={false} axisLine={false} fontSize={11} />
+                <Tooltip />
+                <Bar dataKey="value" radius={[8, 8, 0, 0]} fill="var(--color-chart-2)" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </Card>
+        <Card title="Ranking de empresas críticas" icon={Gauge}>
           <div className="overflow-x-auto">
             <table className="w-full min-w-[680px] text-sm">
               <thead>
@@ -1366,7 +1470,7 @@ function EmpresasSection(props: {
                 className="pl-9"
                 value={props.query}
                 onChange={(e) => props.setQuery(e.target.value)}
-                placeholder="Buscar por CNPJ, razão social, cidade, regime ou responsável"
+                placeholder="CNPJ, razão social, fantasia, natureza, setor, UF, município ou responsável"
               />
             </div>
             <select
@@ -1387,6 +1491,8 @@ function EmpresasSection(props: {
                 <tr className="border-b text-left text-muted-foreground">
                   <th className="py-3">Razão social</th>
                   <th>CNPJ</th>
+                  <th>Natureza</th>
+                  <th>Setor</th>
                   <th>Regime</th>
                   <th>Cidade</th>
                   <th>Responsável</th>
@@ -1408,6 +1514,8 @@ function EmpresasSection(props: {
                       </p>
                     </td>
                     <td className="font-mono text-xs">{empresa.cnpj}</td>
+                    <td>{empresa.naturezaJuridica}</td>
+                    <td>{empresa.setor}</td>
                     <td>{empresa.regime}</td>
                     <td>
                       {empresa.municipio}/{empresa.uf}
@@ -1427,6 +1535,10 @@ function EmpresasSection(props: {
             <Input name="razao" required placeholder="Razão social" />
             <Input name="fantasia" placeholder="Nome fantasia" />
             <Input name="cnpj" required placeholder="CNPJ válido" />
+            <Input name="natureza" placeholder="Natureza jurídica" />
+            <Input name="setor" placeholder="Setor" />
+            <Input name="endereco" placeholder="Endereço" />
+            <Input name="cep" placeholder="CEP" />
             <Input name="ie" placeholder="Inscrição estadual" />
             <Input name="im" placeholder="Inscrição municipal" />
             <select name="regime" className="rounded-md border bg-background px-3 text-sm">
@@ -1439,6 +1551,7 @@ function EmpresasSection(props: {
             <Input name="municipio" required placeholder="Município" />
             <Input name="email" type="email" placeholder="E-mail do cliente" />
             <Input name="telefone" placeholder="Telefone" />
+            <Input name="observacao" className="md:col-span-2" placeholder="Observação geral" />
             <select name="responsavel" className="rounded-md border bg-background px-3 text-sm">
               {responsaveis.map((r) => (
                 <option key={r}>{r}</option>
@@ -1523,6 +1636,13 @@ function EmpresaPanel({
           <Info label="E-mail" value={empresa.email} />
           <Info label="Status" value={empresa.status} />
           <Info label="Telefone" value={empresa.telefone} />
+          <Info label="Natureza jurídica" value={empresa.naturezaJuridica} />
+          <Info label="Setor" value={empresa.setor} />
+          <Info label="Endereço" value={empresa.endereco} />
+          <Info label="CEP" value={empresa.cep} />
+        </div>
+        <div className="rounded-xl border bg-secondary/45 p-4 text-sm text-muted-foreground">
+          {empresa.observacao} {demoObservation}
         </div>
         <ModuleList
           title="Pendências fiscais"
@@ -1565,6 +1685,14 @@ function DocumentosSection({
   documentos: Array<Documento & { status: string; empresa: string }>;
   addDocumento: (e: React.FormEvent<HTMLFormElement>) => void;
 }) {
+  const [filter, setFilter] = useState("");
+  const visibleDocs = documentos.filter((doc) => {
+    const empresa = empresas.find((item) => item.id === doc.empresaId);
+    return [doc.empresa, empresa?.cnpj, doc.status, doc.tipo, doc.vencimento, doc.observacoes]
+      .join(" ")
+      .toLowerCase()
+      .includes(filter.toLowerCase());
+  });
   return (
     <div className="grid gap-6 xl:grid-cols-[0.75fr_1.25fr]">
       <Card title="Adicionar documento" icon={Upload}>
@@ -1602,7 +1730,11 @@ function DocumentosSection({
       </Card>
       <Card title="Controle de documentos" icon={FileText}>
         <div className="mb-4 flex gap-2">
-          <Input placeholder="Filtrar por empresa, CNPJ, status ou vencimento" />
+          <Input
+            value={filter}
+            onChange={(event) => setFilter(event.target.value)}
+            placeholder="Empresa, CNPJ, status, tipo ou vencimento"
+          />
           <Button variant="outline">
             <Filter className="h-4 w-4" />
           </Button>
@@ -1621,7 +1753,7 @@ function DocumentosSection({
               </tr>
             </thead>
             <tbody>
-              {documentos.map((doc) => (
+              {visibleDocs.map((doc) => (
                 <tr key={doc.id} className="border-b last:border-0">
                   <td className="py-3 font-medium">{doc.empresa}</td>
                   <td>{doc.tipo}</td>
@@ -1661,6 +1793,19 @@ function ObrigacoesSection({
   obrigacoes: Obrigacao[];
   addObrigacao: (e: React.FormEvent<HTMLFormElement>) => void;
 }) {
+  const [filter, setFilter] = useState("");
+  const visibleObrigacoes = obrigacoes.filter((item) =>
+    [
+      empresaName(empresas, item.empresaId),
+      item.competencia,
+      item.tipo,
+      item.status,
+      item.responsavel,
+    ]
+      .join(" ")
+      .toLowerCase()
+      .includes(filter.toLowerCase()),
+  );
   return (
     <div className="space-y-6">
       <Card title="Nova obrigação acessória" icon={ClipboardCheck}>
@@ -1707,25 +1852,18 @@ function ObrigacoesSection({
       </Card>
       <div className="grid gap-6 xl:grid-cols-[1fr_0.9fr]">
         <Card title="Visão por competência" icon={CalendarDays}>
+          <Input
+            className="mb-4"
+            value={filter}
+            onChange={(event) => setFilter(event.target.value)}
+            placeholder="Competência, tipo, status, empresa ou responsável"
+          />
           <div className="grid gap-3 md:grid-cols-3">
-            {[
-              "Janeiro",
-              "Fevereiro",
-              "Março",
-              "Abril",
-              "Maio",
-              "Junho",
-              "Julho",
-              "Agosto",
-              "Setembro",
-              "Outubro",
-              "Novembro",
-              "Dezembro",
-            ].map((mes) => (
+            {competenciasDemo.map((mes) => (
               <div className="rounded-xl border p-4" key={mes}>
                 <p className="font-semibold">{mes}</p>
                 <p className="text-sm text-muted-foreground">
-                  {obrigacoes.filter((o) => o.competencia === mes).length} obrigações
+                  {visibleObrigacoes.filter((o) => o.competencia === mes).length} obrigações
                 </p>
               </div>
             ))}
@@ -1733,7 +1871,7 @@ function ObrigacoesSection({
         </Card>
         <Card title="Por empresa e responsável" icon={Users}>
           <div className="space-y-3">
-            {obrigacoes.map((item) => (
+            {visibleObrigacoes.map((item) => (
               <div className="rounded-xl border p-3" key={item.id}>
                 <div className="flex items-center justify-between gap-3">
                   <strong>{item.tipo}</strong>
@@ -1772,6 +1910,7 @@ function TarefasSection({
   addTarefa: (e: React.FormEvent<HTMLFormElement>) => void;
   moveTask: (id: string, status: Tarefa["status"]) => void;
 }) {
+  const [filter, setFilter] = useState("");
   const columns: Tarefa["status"][] = [
     "A fazer",
     "Em andamento",
@@ -1779,6 +1918,19 @@ function TarefasSection({
     "Concluído",
     "Atrasado",
   ];
+  const visibleTarefas = tarefas.filter((task) =>
+    [
+      task.titulo,
+      task.tipo,
+      task.prioridade,
+      task.status,
+      task.responsavel,
+      empresaName(empresas, task.empresaId),
+    ]
+      .join(" ")
+      .toLowerCase()
+      .includes(filter.toLowerCase()),
+  );
   return (
     <div className="space-y-6">
       <Card title="Nova tarefa interna" icon={Plus}>
@@ -1810,15 +1962,22 @@ function TarefasSection({
           </Button>
         </form>
       </Card>
+      <Card title="Filtros de tarefas" icon={Filter}>
+        <Input
+          value={filter}
+          onChange={(event) => setFilter(event.target.value)}
+          placeholder="Empresa, responsável, prioridade, status ou tipo"
+        />
+      </Card>
       <div className="grid gap-4 xl:grid-cols-5">
         {columns.map((column) => (
           <div className="min-h-80 rounded-2xl border bg-secondary/40 p-3" key={column}>
             <div className="mb-3 flex items-center justify-between">
               <strong>{column}</strong>
-              <Badge>{tarefas.filter((t) => t.status === column).length}</Badge>
+              <Badge>{visibleTarefas.filter((t) => t.status === column).length}</Badge>
             </div>
             <div className="space-y-3">
-              {tarefas
+              {visibleTarefas
                 .filter((task) => task.status === column)
                 .map((task) => (
                   <div className="surface-card rounded-xl border p-3" key={task.id}>
@@ -2295,6 +2454,15 @@ function ConfigLine({ label, active }: { label: string; active: boolean }) {
       <Badge tone={active ? "success" : undefined}>ativo</Badge>
     </div>
   );
+}
+function groupCount<T extends Record<string, string>>(items: T[], key: keyof T) {
+  const grouped = items.reduce<Record<string, number>>((acc, item) => {
+    acc[item[key]] = (acc[item[key]] ?? 0) + 1;
+    return acc;
+  }, {});
+  return Object.entries(grouped)
+    .map(([name, value]) => ({ name, value }))
+    .sort((a, b) => b.value - a.value);
 }
 function empresaName(empresas: Empresa[], id: string) {
   return empresas.find((empresa) => empresa.id === id)?.fantasia ?? "Empresa";

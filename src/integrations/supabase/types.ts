@@ -250,9 +250,11 @@ export type Database = {
       }
       empresas: {
         Row: {
+          cep: string | null
           cnpj: string
           created_at: string
           email_cliente: string | null
+          endereco: string | null
           escritorio_id: string
           grupo_empresarial_id: string | null
           id: string
@@ -260,19 +262,25 @@ export type Database = {
           inscricao_municipal: string | null
           matriz_id: string | null
           municipio: string
+          natureza_juridica: string | null
           nome_fantasia: string | null
+          observacao_geral: string | null
           razao_social: string
           regime_tributario: string
           responsavel_id: string | null
+          responsavel_interno: string | null
           risco_score: number
+          setor: string | null
           status: string
           telefone: string | null
           uf: string
         }
         Insert: {
+          cep?: string | null
           cnpj: string
           created_at?: string
           email_cliente?: string | null
+          endereco?: string | null
           escritorio_id: string
           grupo_empresarial_id?: string | null
           id?: string
@@ -280,19 +288,25 @@ export type Database = {
           inscricao_municipal?: string | null
           matriz_id?: string | null
           municipio: string
+          natureza_juridica?: string | null
           nome_fantasia?: string | null
+          observacao_geral?: string | null
           razao_social: string
           regime_tributario: string
           responsavel_id?: string | null
+          responsavel_interno?: string | null
           risco_score?: number
+          setor?: string | null
           status?: string
           telefone?: string | null
           uf: string
         }
         Update: {
+          cep?: string | null
           cnpj?: string
           created_at?: string
           email_cliente?: string | null
+          endereco?: string | null
           escritorio_id?: string
           grupo_empresarial_id?: string | null
           id?: string
@@ -300,11 +314,15 @@ export type Database = {
           inscricao_municipal?: string | null
           matriz_id?: string | null
           municipio?: string
+          natureza_juridica?: string | null
           nome_fantasia?: string | null
+          observacao_geral?: string | null
           razao_social?: string
           regime_tributario?: string
           responsavel_id?: string | null
+          responsavel_interno?: string | null
           risco_score?: number
+          setor?: string | null
           status?: string
           telefone?: string | null
           uf?: string
