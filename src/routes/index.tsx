@@ -1312,7 +1312,7 @@ function DashboardSection({
         >
           <div className="grid gap-3 md:grid-cols-2">
             {prioridadesDia.map((item) => (
-              <div className="rounded-xl border bg-secondary/45 p-4" key={label}>
+              <div className="rounded-xl border bg-secondary/45 p-4" key={`${item.label}-${item.company}-${item.date}`}>
                 <Badge tone={item.tone as Tone}>{formatDate(item.date)}</Badge>
                 <p className="mt-3 text-sm font-medium">{item.label}</p>
                 <p className="mt-1 text-xs text-muted-foreground">{item.company}</p>
