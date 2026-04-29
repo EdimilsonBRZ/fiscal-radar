@@ -462,6 +462,35 @@ function FiscalMonitorPro() {
   }
 }
 
+
+function DashboardMockup() {
+  const bars = [72, 46, 88, 64, 38, 55];
+  return (
+    <div className="overflow-hidden rounded-xl border bg-background">
+      <div className="flex items-center justify-between border-b bg-secondary/55 px-4 py-3">
+        <div className="flex items-center gap-2"><span className="h-3 w-3 rounded-full bg-critical" /><span className="h-3 w-3 rounded-full bg-warning" /><span className="h-3 w-3 rounded-full bg-success" /></div>
+        <p className="text-xs font-medium text-muted-foreground">Fiscal Monitor Pro · Dashboard</p>
+      </div>
+      <div className="grid gap-4 p-4 md:grid-cols-[0.9fr_1.1fr]">
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-3">
+            {[['Empresas', '125'], ['Alertas', '38'], ['Vencidos', '11'], ['Risco médio', '42']].map(([label, value]) => <div className="rounded-lg border bg-card p-3" key={label}><p className="text-xs text-muted-foreground">{label}</p><p className="mt-2 text-2xl font-bold">{value}</p></div>)}
+          </div>
+          <div className="rounded-lg border bg-card p-4">
+            <div className="mb-4 flex items-center justify-between"><strong className="text-sm">Pendências por tipo</strong><Badge tone="warning">abril</Badge></div>
+            <div className="flex h-36 items-end gap-3">{bars.map((bar, index) => <div className="flex flex-1 flex-col items-center gap-2" key={bar}><div className="w-full rounded-t-md bg-primary" style={{ height: `${bar}%` }} /><span className="text-[10px] text-muted-foreground">{index + 1}</span></div>)}</div>
+          </div>
+        </div>
+        <div className="rounded-lg border bg-card p-4">
+          <div className="mb-4 flex items-center justify-between"><strong className="text-sm">Radar Contábil</strong><Badge tone="critical">prioridade</Badge></div>
+          <div className="space-y-3">{initialEmpresas.slice(0, 4).map((empresa) => <div className="grid grid-cols-[1fr_auto] gap-3 rounded-lg border bg-secondary/35 p-3" key={empresa.id}><div><p className="text-sm font-semibold">{empresa.fantasia}</p><p className="text-xs text-muted-foreground">{empresa.cnpj} · {empresa.responsavel}</p></div><Badge tone={toneFromRisk(empresa.risco)}>{empresa.risco}</Badge></div>)}</div>
+          <div className="mt-4 rounded-lg border border-critical/30 bg-critical/10 p-3"><p className="text-sm font-semibold">CND Federal vencida</p><p className="text-xs text-muted-foreground">Aurum Foods · alerta enviado ao responsável</p></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function DashboardSection({ metrics, empresas, documentos, obrigacoes, tarefas, setActive }: { metrics: Record<string, number>; empresas: Empresa[]; documentos: Array<Documento & { status: string; empresa: string }>; obrigacoes: Obrigacao[]; tarefas: Tarefa[]; setActive: (id: string) => void }) {
   const chartData = [
     { name: "Fiscal", value: obrigacoes.filter((item) => item.tipo.includes("DCTF") || item.tipo.includes("SPED")).length + 2 },
