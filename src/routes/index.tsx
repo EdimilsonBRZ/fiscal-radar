@@ -2133,6 +2133,7 @@ function AuthModal({
             type="email"
             required
             placeholder="E-mail"
+            defaultValue={mode === "cadastro" ? defaultContactEmail : undefined}
             className={mode === "login" ? "md:col-span-2" : ""}
           />
           <Input
