@@ -1439,7 +1439,7 @@ function EmpresasSection(props: {
                 className="pl-9"
                 value={props.query}
                 onChange={(e) => props.setQuery(e.target.value)}
-                placeholder="Buscar por CNPJ, razão social, cidade, regime ou responsável"
+                placeholder="CNPJ, razão social, fantasia, natureza, setor, UF, município ou responsável"
               />
             </div>
             <select
@@ -1460,6 +1460,8 @@ function EmpresasSection(props: {
                 <tr className="border-b text-left text-muted-foreground">
                   <th className="py-3">Razão social</th>
                   <th>CNPJ</th>
+                  <th>Natureza</th>
+                  <th>Setor</th>
                   <th>Regime</th>
                   <th>Cidade</th>
                   <th>Responsável</th>
@@ -1481,6 +1483,8 @@ function EmpresasSection(props: {
                       </p>
                     </td>
                     <td className="font-mono text-xs">{empresa.cnpj}</td>
+                    <td>{empresa.naturezaJuridica}</td>
+                    <td>{empresa.setor}</td>
                     <td>{empresa.regime}</td>
                     <td>
                       {empresa.municipio}/{empresa.uf}
@@ -1500,6 +1504,10 @@ function EmpresasSection(props: {
             <Input name="razao" required placeholder="Razão social" />
             <Input name="fantasia" placeholder="Nome fantasia" />
             <Input name="cnpj" required placeholder="CNPJ válido" />
+            <Input name="natureza" placeholder="Natureza jurídica" />
+            <Input name="setor" placeholder="Setor" />
+            <Input name="endereco" placeholder="Endereço" />
+            <Input name="cep" placeholder="CEP" />
             <Input name="ie" placeholder="Inscrição estadual" />
             <Input name="im" placeholder="Inscrição municipal" />
             <select name="regime" className="rounded-md border bg-background px-3 text-sm">
@@ -1512,6 +1520,7 @@ function EmpresasSection(props: {
             <Input name="municipio" required placeholder="Município" />
             <Input name="email" type="email" placeholder="E-mail do cliente" />
             <Input name="telefone" placeholder="Telefone" />
+            <Input name="observacao" className="md:col-span-2" placeholder="Observação geral" />
             <select name="responsavel" className="rounded-md border bg-background px-3 text-sm">
               {responsaveis.map((r) => (
                 <option key={r}>{r}</option>
