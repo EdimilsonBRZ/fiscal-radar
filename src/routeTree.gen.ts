@@ -11,8 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppRotinasRouteImport } from './routes/app.rotinas'
 import { Route as AppPainelRouteImport } from './routes/app.painel'
+import { Route as AppObrigacoesRouteImport } from './routes/app.obrigacoes'
 import { Route as AppEmpresasRouteImport } from './routes/app.empresas'
+import { Route as AppDocumentosRouteImport } from './routes/app.documentos'
+import { Route as AppEmpresasRouteImport } from './routes/app.empresas.'
 
 const AppRoute = AppRouteImport.update({
   id: '/app',
@@ -24,9 +28,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppRotinasRoute = AppRotinasRouteImport.update({
+  id: '/rotinas',
+  path: '/rotinas',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppPainelRoute = AppPainelRouteImport.update({
   id: '/painel',
   path: '/painel',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppObrigacoesRoute = AppObrigacoesRouteImport.update({
+  id: '/obrigacoes',
+  path: '/obrigacoes',
   getParentRoute: () => AppRoute,
 } as any)
 const AppEmpresasRoute = AppEmpresasRouteImport.update({
@@ -34,32 +48,77 @@ const AppEmpresasRoute = AppEmpresasRouteImport.update({
   path: '/empresas',
   getParentRoute: () => AppRoute,
 } as any)
+const AppDocumentosRoute = AppDocumentosRouteImport.update({
+  id: '/documentos',
+  path: '/documentos',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppEmpresasRoute = AppEmpresasRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppEmpresasRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
-  '/app/empresas': typeof AppEmpresasRoute
+  '/app/documentos': typeof AppDocumentosRoute
+  '/app/empresas': typeof AppEmpresasRouteWithChildren
+  '/app/obrigacoes': typeof AppObrigacoesRoute
   '/app/painel': typeof AppPainelRoute
+  '/app/rotinas': typeof AppRotinasRoute
+  '/app/empresas/': typeof AppEmpresasRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
-  '/app/empresas': typeof AppEmpresasRoute
+  '/app/documentos': typeof AppDocumentosRoute
+  '/app/obrigacoes': typeof AppObrigacoesRoute
   '/app/painel': typeof AppPainelRoute
+  '/app/rotinas': typeof AppRotinasRoute
+  '/app/empresas': typeof AppEmpresasRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
-  '/app/empresas': typeof AppEmpresasRoute
+  '/app/documentos': typeof AppDocumentosRoute
+  '/app/empresas': typeof AppEmpresasRouteWithChildren
+  '/app/obrigacoes': typeof AppObrigacoesRoute
   '/app/painel': typeof AppPainelRoute
+  '/app/rotinas': typeof AppRotinasRoute
+  '/app/empresas/': typeof AppEmpresasRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app' | '/app/empresas' | '/app/painel'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/app/documentos'
+    | '/app/empresas'
+    | '/app/obrigacoes'
+    | '/app/painel'
+    | '/app/rotinas'
+    | '/app/empresas/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/app' | '/app/empresas' | '/app/painel'
-  id: '__root__' | '/' | '/app' | '/app/empresas' | '/app/painel'
+  to:
+    | '/'
+    | '/app'
+    | '/app/documentos'
+    | '/app/obrigacoes'
+    | '/app/painel'
+    | '/app/rotinas'
+    | '/app/empresas'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/app/documentos'
+    | '/app/empresas'
+    | '/app/obrigacoes'
+    | '/app/painel'
+    | '/app/rotinas'
+    | '/app/empresas/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -83,11 +142,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/rotinas': {
+      id: '/app/rotinas'
+      path: '/rotinas'
+      fullPath: '/app/rotinas'
+      preLoaderRoute: typeof AppRotinasRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/painel': {
       id: '/app/painel'
       path: '/painel'
       fullPath: '/app/painel'
       preLoaderRoute: typeof AppPainelRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/obrigacoes': {
+      id: '/app/obrigacoes'
+      path: '/obrigacoes'
+      fullPath: '/app/obrigacoes'
+      preLoaderRoute: typeof AppObrigacoesRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/empresas': {
@@ -97,17 +170,49 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppEmpresasRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/documentos': {
+      id: '/app/documentos'
+      path: '/documentos'
+      fullPath: '/app/documentos'
+      preLoaderRoute: typeof AppDocumentosRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/empresas/': {
+      id: '/app/empresas/'
+      path: '/'
+      fullPath: '/app/empresas/'
+      preLoaderRoute: typeof AppEmpresasRouteImport
+      parentRoute: typeof AppEmpresasRoute
+    }
   }
 }
 
-interface AppRouteChildren {
+interface AppEmpresasRouteChildren {
   AppEmpresasRoute: typeof AppEmpresasRoute
+}
+
+const AppEmpresasRouteChildren: AppEmpresasRouteChildren = {
+  AppEmpresasRoute: AppEmpresasRoute,
+}
+
+const AppEmpresasRouteWithChildren = AppEmpresasRoute._addFileChildren(
+  AppEmpresasRouteChildren,
+)
+
+interface AppRouteChildren {
+  AppDocumentosRoute: typeof AppDocumentosRoute
+  AppEmpresasRoute: typeof AppEmpresasRouteWithChildren
+  AppObrigacoesRoute: typeof AppObrigacoesRoute
   AppPainelRoute: typeof AppPainelRoute
+  AppRotinasRoute: typeof AppRotinasRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
-  AppEmpresasRoute: AppEmpresasRoute,
+  AppDocumentosRoute: AppDocumentosRoute,
+  AppEmpresasRoute: AppEmpresasRouteWithChildren,
+  AppObrigacoesRoute: AppObrigacoesRoute,
   AppPainelRoute: AppPainelRoute,
+  AppRotinasRoute: AppRotinasRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
