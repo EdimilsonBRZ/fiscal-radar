@@ -1,5 +1,7 @@
 import { supabase } from "@/integrations/supabase/client";
 
+const db = supabase as any;
+
 export type SituacaoDocumento = "Válido" | "Vencendo" | "Vencido" | "Sem arquivo" | "Aguardando cliente";
 export type SituacaoRotina = "Pendente" | "Em andamento" | "Aguardando cliente" | "Concluída" | "Atrasada";
 
@@ -273,16 +275,16 @@ export function labelSituacao(value?: string | null) {
 
 export async function fetchWorkspaceData(): Promise<WorkspaceData> {
   const [empresas, documentos, obrigacoes, rotinas, rotinaItens, calendario, alertas, emails, usuarios, configs] = await Promise.all([
-    supabase.from("empresas").select("*").order("razao_social"),
-    supabase.from("documentos").select("*").order("data_vencimento", { ascending: true }),
-    supabase.from("obrigacoes").select("*").order("data_limite", { ascending: true }),
-    supabase.from("rotinas_fiscais").select("*").order("data_limite", { ascending: true }),
-    supabase.from("rotina_itens").select("*").order("categoria", { ascending: true }),
-    supabase.from("calendario_fiscal").select("*").order("data_vencimento", { ascending: true }),
-    supabase.from("alertas").select("*").order("data_alerta", { ascending: false }),
-    supabase.from("emails_alerta").select("*").order("principal", { ascending: false }),
-    supabase.from("usuarios").select("id,nome,email").order("nome"),
-    supabase.from("configuracoes_alerta").select("*").limit(1),
+    db.from("empresas").select("*").order("razao_social"),
+    db.from("documentos").select("*").order("data_vencimento", { ascending: true }),
+    db.from("obrigacoes").select("*").order("data_limite", { ascending: true }),
+    db.from("rotinas_fiscais").select("*").order("data_limite", { ascending: true }),
+    db.from("rotina_itens").select("*").order("categoria", { ascending: true }),
+    db.from("calendario_fiscal").select("*").order("data_vencimento", { ascending: true }),
+    db.from("alertas").select("*").order("data_alerta", { ascending: false }),
+    db.from("emails_alerta").select("*").order("principal", { ascending: false }),
+    db.from("usuarios").select("id,nome,email").order("nome"),
+    db.from("configuracoes_alerta").select("*").limit(1),
   ]);
 
   const error = [empresas, documentos, obrigacoes, rotinas, rotinaItens, calendario, alertas, emails, usuarios, configs].find((result) => result.error)?.error;
