@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { EmpresaResumoCards, PageState, StatusBadge } from "@/components/prazocontabil/ui";
 import { WorkspaceData, documentoSituacao, emptyWorkspaceData, fetchWorkspaceData, formatDate } from "@/lib/prazocontabil-data";
 
-export const Route = createFileRoute("/app/empresas/")({
+export const Route = createFileRoute("/app/empresas/$id")({
   head: () => ({ meta: [{ title: "Painel da empresa — PrazoContábil" }, { name: "description", content: "Painel completo da empresa com dados cadastrais, e-mails, rotinas, documentos, obrigações, alertas, relatórios e histórico." }] }),
   component: EmpresaDetalhePage,
 });

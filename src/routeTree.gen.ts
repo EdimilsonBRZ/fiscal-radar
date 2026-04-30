@@ -20,7 +20,7 @@ import { Route as AppEmpresasRouteImport } from './routes/app.empresas'
 import { Route as AppDocumentosRouteImport } from './routes/app.documentos'
 import { Route as AppConfiguracoesRouteImport } from './routes/app.configuracoes'
 import { Route as AppAlertasRouteImport } from './routes/app.alertas'
-import { Route as AppEmpresasRouteImport } from './routes/app.empresas.'
+import { Route as AppEmpresasIdRouteImport } from './routes/app.empresas.$id'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -77,9 +77,9 @@ const AppAlertasRoute = AppAlertasRouteImport.update({
   path: '/alertas',
   getParentRoute: () => AppRoute,
 } as any)
-const AppEmpresasRoute = AppEmpresasRouteImport.update({
-  id: '/',
-  path: '/',
+const AppEmpresasIdRoute = AppEmpresasIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
   getParentRoute: () => AppEmpresasRoute,
 } as any)
 
@@ -95,7 +95,7 @@ export interface FileRoutesByFullPath {
   '/app/painel': typeof AppPainelRoute
   '/app/relatorios': typeof AppRelatoriosRoute
   '/app/rotinas': typeof AppRotinasRoute
-  '/app/empresas/': typeof AppEmpresasRoute
+  '/app/empresas/$id': typeof AppEmpresasIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -104,11 +104,12 @@ export interface FileRoutesByTo {
   '/app/alertas': typeof AppAlertasRoute
   '/app/configuracoes': typeof AppConfiguracoesRoute
   '/app/documentos': typeof AppDocumentosRoute
+  '/app/empresas': typeof AppEmpresasRouteWithChildren
   '/app/obrigacoes': typeof AppObrigacoesRoute
   '/app/painel': typeof AppPainelRoute
   '/app/relatorios': typeof AppRelatoriosRoute
   '/app/rotinas': typeof AppRotinasRoute
-  '/app/empresas': typeof AppEmpresasRoute
+  '/app/empresas/$id': typeof AppEmpresasIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -123,7 +124,7 @@ export interface FileRoutesById {
   '/app/painel': typeof AppPainelRoute
   '/app/relatorios': typeof AppRelatoriosRoute
   '/app/rotinas': typeof AppRotinasRoute
-  '/app/empresas/': typeof AppEmpresasRoute
+  '/app/empresas/$id': typeof AppEmpresasIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -139,7 +140,7 @@ export interface FileRouteTypes {
     | '/app/painel'
     | '/app/relatorios'
     | '/app/rotinas'
-    | '/app/empresas/'
+    | '/app/empresas/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -148,11 +149,12 @@ export interface FileRouteTypes {
     | '/app/alertas'
     | '/app/configuracoes'
     | '/app/documentos'
+    | '/app/empresas'
     | '/app/obrigacoes'
     | '/app/painel'
     | '/app/relatorios'
     | '/app/rotinas'
-    | '/app/empresas'
+    | '/app/empresas/$id'
   id:
     | '__root__'
     | '/'
@@ -166,7 +168,7 @@ export interface FileRouteTypes {
     | '/app/painel'
     | '/app/relatorios'
     | '/app/rotinas'
-    | '/app/empresas/'
+    | '/app/empresas/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -254,22 +256,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAlertasRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/empresas/': {
-      id: '/app/empresas/'
-      path: '/'
-      fullPath: '/app/empresas/'
-      preLoaderRoute: typeof AppEmpresasRouteImport
+    '/app/empresas/$id': {
+      id: '/app/empresas/$id'
+      path: '/$id'
+      fullPath: '/app/empresas/$id'
+      preLoaderRoute: typeof AppEmpresasIdRouteImport
       parentRoute: typeof AppEmpresasRoute
     }
   }
 }
 
 interface AppEmpresasRouteChildren {
-  AppEmpresasRoute: typeof AppEmpresasRoute
+  AppEmpresasIdRoute: typeof AppEmpresasIdRoute
 }
 
 const AppEmpresasRouteChildren: AppEmpresasRouteChildren = {
-  AppEmpresasRoute: AppEmpresasRoute,
+  AppEmpresasIdRoute: AppEmpresasIdRoute,
 }
 
 const AppEmpresasRouteWithChildren = AppEmpresasRoute._addFileChildren(
