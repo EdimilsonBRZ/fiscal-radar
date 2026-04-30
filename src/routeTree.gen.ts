@@ -16,6 +16,8 @@ import { Route as AppPainelRouteImport } from './routes/app.painel'
 import { Route as AppObrigacoesRouteImport } from './routes/app.obrigacoes'
 import { Route as AppEmpresasRouteImport } from './routes/app.empresas'
 import { Route as AppDocumentosRouteImport } from './routes/app.documentos'
+import { Route as AppConfiguracoesRouteImport } from './routes/app.configuracoes'
+import { Route as AppAlertasRouteImport } from './routes/app.alertas'
 import { Route as AppEmpresasRouteImport } from './routes/app.empresas.'
 
 const AppRoute = AppRouteImport.update({
@@ -53,6 +55,16 @@ const AppDocumentosRoute = AppDocumentosRouteImport.update({
   path: '/documentos',
   getParentRoute: () => AppRoute,
 } as any)
+const AppConfiguracoesRoute = AppConfiguracoesRouteImport.update({
+  id: '/configuracoes',
+  path: '/configuracoes',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAlertasRoute = AppAlertasRouteImport.update({
+  id: '/alertas',
+  path: '/alertas',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppEmpresasRoute = AppEmpresasRouteImport.update({
   id: '/',
   path: '/',
@@ -62,6 +74,8 @@ const AppEmpresasRoute = AppEmpresasRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/app/alertas': typeof AppAlertasRoute
+  '/app/configuracoes': typeof AppConfiguracoesRoute
   '/app/documentos': typeof AppDocumentosRoute
   '/app/empresas': typeof AppEmpresasRouteWithChildren
   '/app/obrigacoes': typeof AppObrigacoesRoute
@@ -72,6 +86,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/app/alertas': typeof AppAlertasRoute
+  '/app/configuracoes': typeof AppConfiguracoesRoute
   '/app/documentos': typeof AppDocumentosRoute
   '/app/obrigacoes': typeof AppObrigacoesRoute
   '/app/painel': typeof AppPainelRoute
@@ -82,6 +98,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/app/alertas': typeof AppAlertasRoute
+  '/app/configuracoes': typeof AppConfiguracoesRoute
   '/app/documentos': typeof AppDocumentosRoute
   '/app/empresas': typeof AppEmpresasRouteWithChildren
   '/app/obrigacoes': typeof AppObrigacoesRoute
@@ -94,6 +112,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/app'
+    | '/app/alertas'
+    | '/app/configuracoes'
     | '/app/documentos'
     | '/app/empresas'
     | '/app/obrigacoes'
@@ -104,6 +124,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/app'
+    | '/app/alertas'
+    | '/app/configuracoes'
     | '/app/documentos'
     | '/app/obrigacoes'
     | '/app/painel'
@@ -113,6 +135,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/app'
+    | '/app/alertas'
+    | '/app/configuracoes'
     | '/app/documentos'
     | '/app/empresas'
     | '/app/obrigacoes'
@@ -177,6 +201,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDocumentosRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/configuracoes': {
+      id: '/app/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/app/configuracoes'
+      preLoaderRoute: typeof AppConfiguracoesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/alertas': {
+      id: '/app/alertas'
+      path: '/alertas'
+      fullPath: '/app/alertas'
+      preLoaderRoute: typeof AppAlertasRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/empresas/': {
       id: '/app/empresas/'
       path: '/'
@@ -200,6 +238,8 @@ const AppEmpresasRouteWithChildren = AppEmpresasRoute._addFileChildren(
 )
 
 interface AppRouteChildren {
+  AppAlertasRoute: typeof AppAlertasRoute
+  AppConfiguracoesRoute: typeof AppConfiguracoesRoute
   AppDocumentosRoute: typeof AppDocumentosRoute
   AppEmpresasRoute: typeof AppEmpresasRouteWithChildren
   AppObrigacoesRoute: typeof AppObrigacoesRoute
@@ -208,6 +248,8 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAlertasRoute: AppAlertasRoute,
+  AppConfiguracoesRoute: AppConfiguracoesRoute,
   AppDocumentosRoute: AppDocumentosRoute,
   AppEmpresasRoute: AppEmpresasRouteWithChildren,
   AppObrigacoesRoute: AppObrigacoesRoute,
