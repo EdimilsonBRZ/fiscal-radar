@@ -18,37 +18,49 @@ export type Database = {
         Row: {
           created_at: string
           data_alerta: string
+          destinatarios: string[]
           documento_id: string | null
           empresa_id: string | null
           enviado: boolean
+          enviado_em: string | null
           escritorio_id: string
           id: string
           mensagem: string
           obrigacao_id: string | null
+          resolvido: boolean
+          resolvido_em: string | null
           tipo_alerta: string
         }
         Insert: {
           created_at?: string
           data_alerta: string
+          destinatarios?: string[]
           documento_id?: string | null
           empresa_id?: string | null
           enviado?: boolean
+          enviado_em?: string | null
           escritorio_id: string
           id?: string
           mensagem: string
           obrigacao_id?: string | null
+          resolvido?: boolean
+          resolvido_em?: string | null
           tipo_alerta: string
         }
         Update: {
           created_at?: string
           data_alerta?: string
+          destinatarios?: string[]
           documento_id?: string | null
           empresa_id?: string | null
           enviado?: boolean
+          enviado_em?: string | null
           escritorio_id?: string
           id?: string
           mensagem?: string
           obrigacao_id?: string | null
+          resolvido?: boolean
+          resolvido_em?: string | null
           tipo_alerta?: string
         }
         Relationships: [
@@ -82,8 +94,70 @@ export type Database = {
           },
         ]
       }
+      calendario_fiscal: {
+        Row: {
+          atualizado_em: string
+          competencia: string
+          created_at: string
+          data_vencimento: string
+          editado_manualmente: boolean
+          escritorio_id: string
+          fonte: string | null
+          id: string
+          municipio: string | null
+          nome_obrigacao: string
+          observacoes: string | null
+          regime_tributario: string | null
+          tipo: string
+          uf: string | null
+          updated_at: string
+        }
+        Insert: {
+          atualizado_em?: string
+          competencia: string
+          created_at?: string
+          data_vencimento: string
+          editado_manualmente?: boolean
+          escritorio_id: string
+          fonte?: string | null
+          id?: string
+          municipio?: string | null
+          nome_obrigacao: string
+          observacoes?: string | null
+          regime_tributario?: string | null
+          tipo: string
+          uf?: string | null
+          updated_at?: string
+        }
+        Update: {
+          atualizado_em?: string
+          competencia?: string
+          created_at?: string
+          data_vencimento?: string
+          editado_manualmente?: boolean
+          escritorio_id?: string
+          fonte?: string | null
+          id?: string
+          municipio?: string | null
+          nome_obrigacao?: string
+          observacoes?: string | null
+          regime_tributario?: string | null
+          tipo?: string
+          uf?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       configuracoes_alerta: {
         Row: {
+          alerta_15_dias: boolean
+          alerta_30_dias: boolean
+          alerta_7_dias: boolean
+          alerta_no_vencimento: boolean
+          alerta_pos_vencido: boolean
+          assinatura_escritorio: string
+          assunto_padrao: string
+          corpo_padrao: string
           created_at: string
           dias_antes: number[]
           escritorio_id: string
@@ -94,6 +168,14 @@ export type Database = {
           tipos_obrigacoes: string[]
         }
         Insert: {
+          alerta_15_dias?: boolean
+          alerta_30_dias?: boolean
+          alerta_7_dias?: boolean
+          alerta_no_vencimento?: boolean
+          alerta_pos_vencido?: boolean
+          assinatura_escritorio?: string
+          assunto_padrao?: string
+          corpo_padrao?: string
           created_at?: string
           dias_antes?: number[]
           escritorio_id: string
@@ -104,6 +186,14 @@ export type Database = {
           tipos_obrigacoes?: string[]
         }
         Update: {
+          alerta_15_dias?: boolean
+          alerta_30_dias?: boolean
+          alerta_7_dias?: boolean
+          alerta_no_vencimento?: boolean
+          alerta_pos_vencido?: boolean
+          assinatura_escritorio?: string
+          assunto_padrao?: string
+          corpo_padrao?: string
           created_at?: string
           dias_antes?: number[]
           escritorio_id?: string
@@ -187,6 +277,7 @@ export type Database = {
           empresa_id: string
           id: string
           principal: boolean
+          rotulo: string
         }
         Insert: {
           created_at?: string
@@ -194,6 +285,7 @@ export type Database = {
           empresa_id: string
           id?: string
           principal?: boolean
+          rotulo?: string
         }
         Update: {
           created_at?: string
@@ -201,6 +293,7 @@ export type Database = {
           empresa_id?: string
           id?: string
           principal?: boolean
+          rotulo?: string
         }
         Relationships: [
           {
@@ -443,47 +536,66 @@ export type Database = {
       obrigacoes: {
         Row: {
           arquivo_comprovante_url: string | null
+          calendario_fiscal_id: string | null
           competencia: string
           created_at: string
+          data_entrega: string | null
           data_limite: string
           empresa_id: string
           escritorio_id: string
           id: string
+          nao_se_aplica: boolean
           observacoes: string | null
           protocolo: string | null
           responsavel_id: string | null
+          rotina_id: string | null
           status: string
           tipo_obrigacao: string
         }
         Insert: {
           arquivo_comprovante_url?: string | null
+          calendario_fiscal_id?: string | null
           competencia: string
           created_at?: string
+          data_entrega?: string | null
           data_limite: string
           empresa_id: string
           escritorio_id: string
           id?: string
+          nao_se_aplica?: boolean
           observacoes?: string | null
           protocolo?: string | null
           responsavel_id?: string | null
+          rotina_id?: string | null
           status?: string
           tipo_obrigacao: string
         }
         Update: {
           arquivo_comprovante_url?: string | null
+          calendario_fiscal_id?: string | null
           competencia?: string
           created_at?: string
+          data_entrega?: string | null
           data_limite?: string
           empresa_id?: string
           escritorio_id?: string
           id?: string
+          nao_se_aplica?: boolean
           observacoes?: string | null
           protocolo?: string | null
           responsavel_id?: string | null
+          rotina_id?: string | null
           status?: string
           tipo_obrigacao?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "obrigacoes_calendario_fiscal_id_fkey"
+            columns: ["calendario_fiscal_id"]
+            isOneToOne: false
+            referencedRelation: "calendario_fiscal"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "obrigacoes_empresa_id_fkey"
             columns: ["empresa_id"]
@@ -505,7 +617,148 @@ export type Database = {
             referencedRelation: "usuarios"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "obrigacoes_rotina_id_fkey"
+            columns: ["rotina_id"]
+            isOneToOne: false
+            referencedRelation: "rotinas_fiscais"
+            referencedColumns: ["id"]
+          },
         ]
+      }
+      relatorios_gerados: {
+        Row: {
+          arquivo_url: string | null
+          created_at: string
+          escritorio_id: string
+          filtros: Json
+          id: string
+          periodo_final: string | null
+          periodo_inicial: string | null
+          tipo_relatorio: string
+          usuario_id: string | null
+        }
+        Insert: {
+          arquivo_url?: string | null
+          created_at?: string
+          escritorio_id: string
+          filtros?: Json
+          id?: string
+          periodo_final?: string | null
+          periodo_inicial?: string | null
+          tipo_relatorio: string
+          usuario_id?: string | null
+        }
+        Update: {
+          arquivo_url?: string | null
+          created_at?: string
+          escritorio_id?: string
+          filtros?: Json
+          id?: string
+          periodo_final?: string | null
+          periodo_inicial?: string | null
+          tipo_relatorio?: string
+          usuario_id?: string | null
+        }
+        Relationships: []
+      }
+      rotina_itens: {
+        Row: {
+          arquivo_url: string | null
+          categoria: string
+          concluido_em: string | null
+          created_at: string
+          data_limite: string | null
+          descricao: string
+          id: string
+          observacoes: string | null
+          responsavel_id: string | null
+          rotina_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          arquivo_url?: string | null
+          categoria: string
+          concluido_em?: string | null
+          created_at?: string
+          data_limite?: string | null
+          descricao: string
+          id?: string
+          observacoes?: string | null
+          responsavel_id?: string | null
+          rotina_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          arquivo_url?: string | null
+          categoria?: string
+          concluido_em?: string | null
+          created_at?: string
+          data_limite?: string | null
+          descricao?: string
+          id?: string
+          observacoes?: string | null
+          responsavel_id?: string | null
+          rotina_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rotina_itens_rotina_id_fkey"
+            columns: ["rotina_id"]
+            isOneToOne: false
+            referencedRelation: "rotinas_fiscais"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rotinas_fiscais: {
+        Row: {
+          competencia: string
+          created_at: string
+          data_conclusao: string | null
+          data_inicio: string | null
+          data_limite: string
+          empresa_id: string
+          escritorio_id: string
+          id: string
+          observacoes: string | null
+          responsavel_id: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          competencia: string
+          created_at?: string
+          data_conclusao?: string | null
+          data_inicio?: string | null
+          data_limite: string
+          empresa_id: string
+          escritorio_id: string
+          id?: string
+          observacoes?: string | null
+          responsavel_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          competencia?: string
+          created_at?: string
+          data_conclusao?: string | null
+          data_inicio?: string | null
+          data_limite?: string
+          empresa_id?: string
+          escritorio_id?: string
+          id?: string
+          observacoes?: string | null
+          responsavel_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       tarefa_comentarios: {
         Row: {
@@ -678,7 +931,12 @@ export type Database = {
     }
     Functions: {
       can_access_empresa: { Args: { _empresa_id: string }; Returns: boolean }
+      criar_itens_padrao_rotina: {
+        Args: { _rotina_id: string }
+        Returns: number
+      }
       current_user_escritorio_id: { Args: never; Returns: string }
+      gerar_alertas_documentos: { Args: never; Returns: number }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
