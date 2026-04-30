@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppRotinasRouteImport } from './routes/app.rotinas'
+import { Route as AppRelatoriosRouteImport } from './routes/app.relatorios'
 import { Route as AppPainelRouteImport } from './routes/app.painel'
 import { Route as AppObrigacoesRouteImport } from './routes/app.obrigacoes'
 import { Route as AppEmpresasRouteImport } from './routes/app.empresas'
@@ -33,6 +34,11 @@ const IndexRoute = IndexRouteImport.update({
 const AppRotinasRoute = AppRotinasRouteImport.update({
   id: '/rotinas',
   path: '/rotinas',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppRelatoriosRoute = AppRelatoriosRouteImport.update({
+  id: '/relatorios',
+  path: '/relatorios',
   getParentRoute: () => AppRoute,
 } as any)
 const AppPainelRoute = AppPainelRouteImport.update({
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/app/empresas': typeof AppEmpresasRouteWithChildren
   '/app/obrigacoes': typeof AppObrigacoesRoute
   '/app/painel': typeof AppPainelRoute
+  '/app/relatorios': typeof AppRelatoriosRoute
   '/app/rotinas': typeof AppRotinasRoute
   '/app/empresas/': typeof AppEmpresasRoute
 }
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/app/documentos': typeof AppDocumentosRoute
   '/app/obrigacoes': typeof AppObrigacoesRoute
   '/app/painel': typeof AppPainelRoute
+  '/app/relatorios': typeof AppRelatoriosRoute
   '/app/rotinas': typeof AppRotinasRoute
   '/app/empresas': typeof AppEmpresasRoute
 }
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/app/empresas': typeof AppEmpresasRouteWithChildren
   '/app/obrigacoes': typeof AppObrigacoesRoute
   '/app/painel': typeof AppPainelRoute
+  '/app/relatorios': typeof AppRelatoriosRoute
   '/app/rotinas': typeof AppRotinasRoute
   '/app/empresas/': typeof AppEmpresasRoute
 }
@@ -118,6 +127,7 @@ export interface FileRouteTypes {
     | '/app/empresas'
     | '/app/obrigacoes'
     | '/app/painel'
+    | '/app/relatorios'
     | '/app/rotinas'
     | '/app/empresas/'
   fileRoutesByTo: FileRoutesByTo
@@ -129,6 +139,7 @@ export interface FileRouteTypes {
     | '/app/documentos'
     | '/app/obrigacoes'
     | '/app/painel'
+    | '/app/relatorios'
     | '/app/rotinas'
     | '/app/empresas'
   id:
@@ -141,6 +152,7 @@ export interface FileRouteTypes {
     | '/app/empresas'
     | '/app/obrigacoes'
     | '/app/painel'
+    | '/app/relatorios'
     | '/app/rotinas'
     | '/app/empresas/'
   fileRoutesById: FileRoutesById
@@ -171,6 +183,13 @@ declare module '@tanstack/react-router' {
       path: '/rotinas'
       fullPath: '/app/rotinas'
       preLoaderRoute: typeof AppRotinasRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/relatorios': {
+      id: '/app/relatorios'
+      path: '/relatorios'
+      fullPath: '/app/relatorios'
+      preLoaderRoute: typeof AppRelatoriosRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/painel': {
@@ -244,6 +263,7 @@ interface AppRouteChildren {
   AppEmpresasRoute: typeof AppEmpresasRouteWithChildren
   AppObrigacoesRoute: typeof AppObrigacoesRoute
   AppPainelRoute: typeof AppPainelRoute
+  AppRelatoriosRoute: typeof AppRelatoriosRoute
   AppRotinasRoute: typeof AppRotinasRoute
 }
 
@@ -254,6 +274,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppEmpresasRoute: AppEmpresasRouteWithChildren,
   AppObrigacoesRoute: AppObrigacoesRoute,
   AppPainelRoute: AppPainelRoute,
+  AppRelatoriosRoute: AppRelatoriosRoute,
   AppRotinasRoute: AppRotinasRoute,
 }
 
