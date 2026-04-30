@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppPainelRouteImport } from './routes/app.painel'
+import { Route as AppEmpresasRouteImport } from './routes/app.empresas'
 
 const AppRoute = AppRouteImport.update({
   id: '/app',
@@ -28,29 +29,37 @@ const AppPainelRoute = AppPainelRouteImport.update({
   path: '/painel',
   getParentRoute: () => AppRoute,
 } as any)
+const AppEmpresasRoute = AppEmpresasRouteImport.update({
+  id: '/empresas',
+  path: '/empresas',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/app/empresas': typeof AppEmpresasRoute
   '/app/painel': typeof AppPainelRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/app/empresas': typeof AppEmpresasRoute
   '/app/painel': typeof AppPainelRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/app/empresas': typeof AppEmpresasRoute
   '/app/painel': typeof AppPainelRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app' | '/app/painel'
+  fullPaths: '/' | '/app' | '/app/empresas' | '/app/painel'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/app' | '/app/painel'
-  id: '__root__' | '/' | '/app' | '/app/painel'
+  to: '/' | '/app' | '/app/empresas' | '/app/painel'
+  id: '__root__' | '/' | '/app' | '/app/empresas' | '/app/painel'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -81,14 +90,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPainelRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/empresas': {
+      id: '/app/empresas'
+      path: '/empresas'
+      fullPath: '/app/empresas'
+      preLoaderRoute: typeof AppEmpresasRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
+  AppEmpresasRoute: typeof AppEmpresasRoute
   AppPainelRoute: typeof AppPainelRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppEmpresasRoute: AppEmpresasRoute,
   AppPainelRoute: AppPainelRoute,
 }
 
