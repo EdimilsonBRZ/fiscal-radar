@@ -18,6 +18,7 @@ import { Route as AppPainelRouteImport } from './routes/app.painel'
 import { Route as AppObrigacoesRouteImport } from './routes/app.obrigacoes'
 import { Route as AppEmpresasRouteImport } from './routes/app.empresas'
 import { Route as AppDocumentosRouteImport } from './routes/app.documentos'
+import { Route as AppConsultasRouteImport } from './routes/app.consultas'
 import { Route as AppConfiguracoesRouteImport } from './routes/app.configuracoes'
 import { Route as AppAlertasRouteImport } from './routes/app.alertas'
 import { Route as AppEmpresasIdRouteImport } from './routes/app.empresas.$id'
@@ -67,6 +68,11 @@ const AppDocumentosRoute = AppDocumentosRouteImport.update({
   path: '/documentos',
   getParentRoute: () => AppRoute,
 } as any)
+const AppConsultasRoute = AppConsultasRouteImport.update({
+  id: '/consultas',
+  path: '/consultas',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppConfiguracoesRoute = AppConfiguracoesRouteImport.update({
   id: '/configuracoes',
   path: '/configuracoes',
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/app/alertas': typeof AppAlertasRoute
   '/app/configuracoes': typeof AppConfiguracoesRoute
+  '/app/consultas': typeof AppConsultasRoute
   '/app/documentos': typeof AppDocumentosRoute
   '/app/empresas': typeof AppEmpresasRouteWithChildren
   '/app/obrigacoes': typeof AppObrigacoesRoute
@@ -103,6 +110,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/app/alertas': typeof AppAlertasRoute
   '/app/configuracoes': typeof AppConfiguracoesRoute
+  '/app/consultas': typeof AppConsultasRoute
   '/app/documentos': typeof AppDocumentosRoute
   '/app/empresas': typeof AppEmpresasRouteWithChildren
   '/app/obrigacoes': typeof AppObrigacoesRoute
@@ -118,6 +126,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/app/alertas': typeof AppAlertasRoute
   '/app/configuracoes': typeof AppConfiguracoesRoute
+  '/app/consultas': typeof AppConsultasRoute
   '/app/documentos': typeof AppDocumentosRoute
   '/app/empresas': typeof AppEmpresasRouteWithChildren
   '/app/obrigacoes': typeof AppObrigacoesRoute
@@ -134,6 +143,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/app/alertas'
     | '/app/configuracoes'
+    | '/app/consultas'
     | '/app/documentos'
     | '/app/empresas'
     | '/app/obrigacoes'
@@ -148,6 +158,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/app/alertas'
     | '/app/configuracoes'
+    | '/app/consultas'
     | '/app/documentos'
     | '/app/empresas'
     | '/app/obrigacoes'
@@ -162,6 +173,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/app/alertas'
     | '/app/configuracoes'
+    | '/app/consultas'
     | '/app/documentos'
     | '/app/empresas'
     | '/app/obrigacoes'
@@ -242,6 +254,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDocumentosRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/consultas': {
+      id: '/app/consultas'
+      path: '/consultas'
+      fullPath: '/app/consultas'
+      preLoaderRoute: typeof AppConsultasRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/configuracoes': {
       id: '/app/configuracoes'
       path: '/configuracoes'
@@ -281,6 +300,7 @@ const AppEmpresasRouteWithChildren = AppEmpresasRoute._addFileChildren(
 interface AppRouteChildren {
   AppAlertasRoute: typeof AppAlertasRoute
   AppConfiguracoesRoute: typeof AppConfiguracoesRoute
+  AppConsultasRoute: typeof AppConsultasRoute
   AppDocumentosRoute: typeof AppDocumentosRoute
   AppEmpresasRoute: typeof AppEmpresasRouteWithChildren
   AppObrigacoesRoute: typeof AppObrigacoesRoute
@@ -292,6 +312,7 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppAlertasRoute: AppAlertasRoute,
   AppConfiguracoesRoute: AppConfiguracoesRoute,
+  AppConsultasRoute: AppConsultasRoute,
   AppDocumentosRoute: AppDocumentosRoute,
   AppEmpresasRoute: AppEmpresasRouteWithChildren,
   AppObrigacoesRoute: AppObrigacoesRoute,
