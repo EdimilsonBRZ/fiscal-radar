@@ -148,6 +148,114 @@ export type Database = {
         }
         Relationships: []
       }
+      certidoes: {
+        Row: {
+          arquivo_pdf_url: string | null
+          codigo_validacao: string | null
+          consulta_id: string | null
+          created_at: string
+          data_emissao: string | null
+          data_validade: string | null
+          empresa_id: string
+          escritorio_id: string
+          esfera: string
+          id: string
+          municipio: string | null
+          numero_certidao: string | null
+          observacoes: string | null
+          origem_emissao: string | null
+          status: string
+          tipo_certidao: string
+          uf: string | null
+          updated_at: string
+        }
+        Insert: {
+          arquivo_pdf_url?: string | null
+          codigo_validacao?: string | null
+          consulta_id?: string | null
+          created_at?: string
+          data_emissao?: string | null
+          data_validade?: string | null
+          empresa_id: string
+          escritorio_id: string
+          esfera: string
+          id?: string
+          municipio?: string | null
+          numero_certidao?: string | null
+          observacoes?: string | null
+          origem_emissao?: string | null
+          status?: string
+          tipo_certidao: string
+          uf?: string | null
+          updated_at?: string
+        }
+        Update: {
+          arquivo_pdf_url?: string | null
+          codigo_validacao?: string | null
+          consulta_id?: string | null
+          created_at?: string
+          data_emissao?: string | null
+          data_validade?: string | null
+          empresa_id?: string
+          escritorio_id?: string
+          esfera?: string
+          id?: string
+          municipio?: string | null
+          numero_certidao?: string | null
+          observacoes?: string | null
+          origem_emissao?: string | null
+          status?: string
+          tipo_certidao?: string
+          uf?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      certificados_digitais: {
+        Row: {
+          arquivo_url: string | null
+          cpf_cnpj: string
+          created_at: string
+          empresa_id: string | null
+          escritorio_id: string
+          id: string
+          observacoes: string | null
+          status: string
+          tipo: string
+          titular: string
+          updated_at: string
+          validade: string
+        }
+        Insert: {
+          arquivo_url?: string | null
+          cpf_cnpj: string
+          created_at?: string
+          empresa_id?: string | null
+          escritorio_id: string
+          id?: string
+          observacoes?: string | null
+          status?: string
+          tipo?: string
+          titular: string
+          updated_at?: string
+          validade: string
+        }
+        Update: {
+          arquivo_url?: string | null
+          cpf_cnpj?: string
+          created_at?: string
+          empresa_id?: string | null
+          escritorio_id?: string
+          id?: string
+          observacoes?: string | null
+          status?: string
+          tipo?: string
+          titular?: string
+          updated_at?: string
+          validade?: string
+        }
+        Relationships: []
+      }
       configuracoes_alerta: {
         Row: {
           alerta_15_dias: boolean
@@ -212,6 +320,60 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      consultas_fiscais: {
+        Row: {
+          arquivo_pdf_url: string | null
+          cnpj: string | null
+          created_at: string
+          dados_retorno: Json | null
+          data_consulta: string
+          empresa_id: string | null
+          erro_tecnico: string | null
+          escritorio_id: string
+          id: string
+          link_oficial: string | null
+          mensagem: string | null
+          origem: string | null
+          status: string
+          tipo_consulta: string
+          usuario_id: string | null
+        }
+        Insert: {
+          arquivo_pdf_url?: string | null
+          cnpj?: string | null
+          created_at?: string
+          dados_retorno?: Json | null
+          data_consulta?: string
+          empresa_id?: string | null
+          erro_tecnico?: string | null
+          escritorio_id: string
+          id?: string
+          link_oficial?: string | null
+          mensagem?: string | null
+          origem?: string | null
+          status?: string
+          tipo_consulta: string
+          usuario_id?: string | null
+        }
+        Update: {
+          arquivo_pdf_url?: string | null
+          cnpj?: string | null
+          created_at?: string
+          dados_retorno?: Json | null
+          data_consulta?: string
+          empresa_id?: string | null
+          erro_tecnico?: string | null
+          escritorio_id?: string
+          id?: string
+          link_oficial?: string | null
+          mensagem?: string | null
+          origem?: string | null
+          status?: string
+          tipo_consulta?: string
+          usuario_id?: string | null
+        }
+        Relationships: []
       }
       documentos: {
         Row: {
@@ -533,6 +695,105 @@ export type Database = {
           },
         ]
       }
+      integracoes_fiscais: {
+        Row: {
+          ativo: boolean
+          created_at: string
+          descricao: string | null
+          escritorio_id: string
+          id: string
+          municipio: string | null
+          nome: string
+          observacoes: string | null
+          requer_certificado: boolean
+          requer_govbr: boolean
+          requer_procuracao: boolean
+          tipo_integracao: string
+          uf: string | null
+          updated_at: string
+          url_base: string | null
+          usa_api: boolean
+          usa_consulta_assistida: boolean
+        }
+        Insert: {
+          ativo?: boolean
+          created_at?: string
+          descricao?: string | null
+          escritorio_id: string
+          id?: string
+          municipio?: string | null
+          nome: string
+          observacoes?: string | null
+          requer_certificado?: boolean
+          requer_govbr?: boolean
+          requer_procuracao?: boolean
+          tipo_integracao: string
+          uf?: string | null
+          updated_at?: string
+          url_base?: string | null
+          usa_api?: boolean
+          usa_consulta_assistida?: boolean
+        }
+        Update: {
+          ativo?: boolean
+          created_at?: string
+          descricao?: string | null
+          escritorio_id?: string
+          id?: string
+          municipio?: string | null
+          nome?: string
+          observacoes?: string | null
+          requer_certificado?: boolean
+          requer_govbr?: boolean
+          requer_procuracao?: boolean
+          tipo_integracao?: string
+          uf?: string | null
+          updated_at?: string
+          url_base?: string | null
+          usa_api?: boolean
+          usa_consulta_assistida?: boolean
+        }
+        Relationships: []
+      }
+      logs_integracao: {
+        Row: {
+          created_at: string
+          empresa_id: string | null
+          endpoint: string | null
+          erro: string | null
+          escritorio_id: string
+          id: string
+          payload_resumido: string | null
+          resposta_resumida: string | null
+          status: string
+          tipo_integracao: string
+        }
+        Insert: {
+          created_at?: string
+          empresa_id?: string | null
+          endpoint?: string | null
+          erro?: string | null
+          escritorio_id: string
+          id?: string
+          payload_resumido?: string | null
+          resposta_resumida?: string | null
+          status: string
+          tipo_integracao: string
+        }
+        Update: {
+          created_at?: string
+          empresa_id?: string | null
+          endpoint?: string | null
+          erro?: string | null
+          escritorio_id?: string
+          id?: string
+          payload_resumido?: string | null
+          resposta_resumida?: string | null
+          status?: string
+          tipo_integracao?: string
+        }
+        Relationships: []
+      }
       obrigacoes: {
         Row: {
           arquivo_comprovante_url: string | null
@@ -625,6 +886,66 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      pendencias_fiscais: {
+        Row: {
+          arquivo_pdf_url: string | null
+          consulta_id: string | null
+          created_at: string
+          descricao: string
+          empresa_id: string
+          escritorio_id: string
+          grau_risco: string
+          id: string
+          link_oficial: string | null
+          observacoes: string | null
+          origem: string
+          prazo_regularizacao: string | null
+          regularizada_em: string | null
+          responsavel_id: string | null
+          status: string
+          tipo_pendencia: string
+          updated_at: string
+        }
+        Insert: {
+          arquivo_pdf_url?: string | null
+          consulta_id?: string | null
+          created_at?: string
+          descricao: string
+          empresa_id: string
+          escritorio_id: string
+          grau_risco?: string
+          id?: string
+          link_oficial?: string | null
+          observacoes?: string | null
+          origem: string
+          prazo_regularizacao?: string | null
+          regularizada_em?: string | null
+          responsavel_id?: string | null
+          status?: string
+          tipo_pendencia: string
+          updated_at?: string
+        }
+        Update: {
+          arquivo_pdf_url?: string | null
+          consulta_id?: string | null
+          created_at?: string
+          descricao?: string
+          empresa_id?: string
+          escritorio_id?: string
+          grau_risco?: string
+          id?: string
+          link_oficial?: string | null
+          observacoes?: string | null
+          origem?: string
+          prazo_regularizacao?: string | null
+          regularizada_em?: string | null
+          responsavel_id?: string | null
+          status?: string
+          tipo_pendencia?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       relatorios_gerados: {
         Row: {
