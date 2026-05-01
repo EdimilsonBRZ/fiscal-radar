@@ -1,11 +1,12 @@
 import { Link, Outlet, useLocation } from "@tanstack/react-router";
-import { BarChart3, Bell, Building2, CalendarDays, ClipboardCheck, FileText, Gauge, Menu, Radar, Settings } from "lucide-react";
+import { BarChart3, Bell, Building2, CalendarDays, ClipboardCheck, FileText, Gauge, Menu, Radar, Search, Settings } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
 const navItems = [
   { to: "/app/painel", label: "Painel", icon: Gauge },
   { to: "/app/empresas", label: "Empresas", icon: Building2 },
+  { to: "/app/consultas", label: "Consultas fiscais", icon: Search },
   { to: "/app/rotinas", label: "Rotinas fiscais", icon: CalendarDays },
   { to: "/app/documentos", label: "Documentos", icon: FileText },
   { to: "/app/obrigacoes", label: "Obrigações", icon: ClipboardCheck },
